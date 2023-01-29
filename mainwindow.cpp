@@ -6,6 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->qMain->addWidget(&d) ;
+    //d.show() ;
 }
 
 MainWindow::~MainWindow()
