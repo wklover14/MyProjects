@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "date_picker.h"
+#include "color_picker.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,5 +20,6 @@ public:
 private:
     Ui::MainWindow *ui;
     Date_picker d ;
+    Color_picker p ;
 };
 #endif // MAINWINDOW_H

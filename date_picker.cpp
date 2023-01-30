@@ -37,7 +37,7 @@ void Date_picker::handleClick(QMouseEvent* mouseCliclEvent){
     layout->addLayout(buttonLayout);
 
     customDialog->setLayout(layout);
-    //set buttons action, we use a lambda function to set automaticaly the new value of the date
+    //set buttons action, we use a lambda function to update automaticaly the new value of the date
     connect(okButton, &QPushButton::released, customDialog,
             [customDialog, this, calendar](){
                 this->selectedDate = calendar->selectedDate() ;
