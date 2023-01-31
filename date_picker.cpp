@@ -49,5 +49,6 @@ void Date_picker::handleClick(QMouseEvent* mouseCliclEvent){
 
     customDialog->exec();
 
+    if(mouseCliclEvent == nullptr) qDebug() ; //in order to avoid warning
 
 }

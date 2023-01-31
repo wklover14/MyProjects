@@ -13,7 +13,7 @@ Color_picker::Color_picker(QWidget *parent): QWidget(parent), item(){
     //add item
     layout->addWidget(&item) ;
     this->setLayout(layout) ;
-
+    this->setMaximumSize( Parameters::color_shape_weight * 2 , Parameters::color_shape_height * 2 ) ;
     setAcceptDrops(true) ;
     this->setStyleSheet("border-color : #FFFFFF;") ;
     connect(this , &Color_picker::mousePressEvent , this, &Color_picker::handleClick );
