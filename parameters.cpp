@@ -21,7 +21,7 @@ map<int, QString> Parameters::colors_name = {
 int Parameters::color_shape_weight = 24 ;
 int Parameters::color_shape_height = 24 ;
 int Parameters::milestone_width = 277 ;
-int Parameters::milestone_height = 84 ;
+int Parameters::milestone_height = 200 ;
 
 QString Parameters::date_stylesheet =  "width: 127px;"
         "height: 34px;"

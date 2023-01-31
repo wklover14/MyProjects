@@ -18,13 +18,17 @@ public :
 
         //content
         date.setText("Date");
-        comment.setText("Comment");
+        comment.setText("Read 80% of the book sjfknsjdd djjdpazeaer eruisnnoidnv diho");
         action.setText("validate") ;
 
         //style
         date.setStyleSheet( Parameters::date_stylesheet ) ;
         comment.setStyleSheet( Parameters::text_stylesheet_2 ) ;
         action.setStyleSheet( Parameters::button_stylesheet ) ;
+        comment.setWordWrap(true) ;
+
+        this->setMaximumSize( Parameters::milestone_width , Parameters::milestone_height ) ;
+
 
         button_layout.setAlignment(Qt::AlignRight) ;
         button_layout.addWidget( &action ) ;
@@ -33,7 +37,6 @@ public :
         layout.addLayout( &button_layout ) ;
         this->setLayout( &layout ) ;
 
-        this->setMaximumSize( Parameters::milestone_width , Parameters::milestone_height ) ;
 
         connect( &action, &QPushButton::released , this , &Milestone_widget::toggle_button_action_value  ) ;
     } ;
