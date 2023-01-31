@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "date_picker.h"
 #include "color_picker.h"
+#include "milestone_widget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,5 +22,6 @@ private:
     Ui::MainWindow *ui;
     Date_picker d ;
     Color_picker p ;
+    Milestone_widget m ;
 };
 #endif // MAINWINDOW_H

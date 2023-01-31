@@ -21,6 +21,7 @@ HEADERS += \
     color_picker.h \
     date_picker.h \
     mainwindow.h \
+    milestone_widget.h \
     parameters.h
 
 FORMS += \
