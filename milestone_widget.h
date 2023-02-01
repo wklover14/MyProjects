@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QDate>
 
 #include "parameters.h"
 
@@ -39,9 +40,12 @@ public :
 
 
         connect( &action, &QPushButton::released , this , &Milestone_widget::toggle_button_action_value  ) ;
+
+        //animation for action button
     } ;
     ~Milestone_widget(){} ;
-
+    QDate getDate()const { return QDate::currentDate() ; }
+    void setComment(QString c) { comment.setText(c) ;  }
 private slots :
     void toggle_button_action_value()
     {

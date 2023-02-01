@@ -21,6 +21,10 @@ public:
      static int color_shape_height ;
      static int milestone_width ;
      static int milestone_height ;
+     static int carrousel_width ;
+     static int carrousel_height ;
+     static int arrow_width ;
+     static int arrow_height ;
 
      //all css
      static QString date_stylesheet ;

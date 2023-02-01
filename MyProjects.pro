@@ -17,6 +17,7 @@ SOURCES += \
 
 HEADERS += \
     Colorful_circle.h \
+    carrousel.h \
     color_item.h \
     color_picker.h \
     date_picker.h \
@@ -32,3 +33,15 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    calendar.svg \
+    images/calendar.png \
+    images/left_arrow.png \
+    images/number.png \
+    images/plus.png \
+    images/right_arrow.png \
+    left_arrow.svg \
+    number.svg \
+    plus.svg \
+    right_arrow.svg

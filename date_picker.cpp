@@ -1,5 +1,6 @@
 #include "date_picker.h"
 #include "ui_date_picker.h"
+#include "parameters.h"
 
 #include <QDialog>
 #include <QCalendarWidget>
@@ -10,6 +11,7 @@ Date_picker::Date_picker(QWidget *parent) :
     ui(new Ui::Date_picker)
 {
     ui->setupUi(this);
+    ui->label->setStyleSheet( Parameters::title_stylesheet ) ;
     setAcceptDrops(true) ;
     connect(this, &Date_picker::mousePressEvent, this, &Date_picker::handleClick) ;
 }

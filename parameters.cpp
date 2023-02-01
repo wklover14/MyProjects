@@ -1,12 +1,12 @@
 #include "parameters.h"
 
 map<int, QString> Parameters::hexa_code_colors = {
-    { COLORS::salmon , "#FC7869"},
-    { COLORS::casablanca , "#F5AE52"},
+    { COLORS::salmon , "#FC7869" },
+    { COLORS::casablanca , "#F5AE52" },
     { COLORS::lavender, "#F7E7FB" },
-    { COLORS::quartz, "#E0C2F2"},
-    { COLORS::purple_Mountains_majesty, "#A478B8"},
-    { COLORS::light_white, "#F5F5F5"}
+    { COLORS::quartz, "#E0C2F2" },
+    { COLORS::purple_Mountains_majesty, "#A478B8" },
+    { COLORS::light_white, "#F5F5F5" }
 };
 
 map<int, QString> Parameters::colors_name = {
@@ -22,26 +22,26 @@ int Parameters::color_shape_weight = 24 ;
 int Parameters::color_shape_height = 24 ;
 int Parameters::milestone_width = 277 ;
 int Parameters::milestone_height = 200 ;
+int Parameters::carrousel_width = 407 ;
+int Parameters::carrousel_height = 150 ;
+int Parameters::arrow_width = 41 ;
+int Parameters::arrow_height = 38 ;
 
 QString Parameters::date_stylesheet =  "width: 127px;"
         "height: 34px;"
         "font-family: Arial;"
-        "font-size: 20px;"
+        "font-size: 16px;"
         "color: #000000;"
         "font-style: italic;"
         "text-decoration: none solid rgb(0, 0, 0);"
         "letter-spacing: 2px;"  ;
-QString Parameters::text_stylesheet_1 = "width: 203px;"
-        "height: 32px;"
-        "font-family: Arial;"
-        "font-size: 20px;"
+QString Parameters::text_stylesheet_1 = "font-family: Arial;"
+        "font-size: 16px;"
         "color: #000000;"
         "text-decoration: none solid rgb(0, 0, 0);"
         "letter-spacing: 2px;" ;
-QString Parameters::text_stylesheet_2 = "width: 203px;"
-        "height: 32px;"
-        "font-family: Arial;"
-        "font-size: 18px;"
+QString Parameters::text_stylesheet_2 = "font-family: Arial;"
+        "font-size: 16px;"
         "color: #000000;"
         "text-decoration: none solid rgb(0, 0, 0);"
         "letter-spacing: 2px;" ;
