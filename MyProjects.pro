@@ -9,8 +9,8 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    color_picker.cpp \
-    date_picker.cpp \
+    components/color_picker.cpp \
+    components/date_picker.cpp \
     main.cpp \
     mainwindow.cpp \
     parameters.cpp
@@ -20,13 +20,20 @@ HEADERS += \
     carrousel.h \
     color_item.h \
     color_picker.h \
+    components/Colorful_circle.h \
+    components/carrousel.h \
+    components/color_item.h \
+    components/color_picker.h \
+    components/date_picker.h \
+    components/milestone_widget.h \
     date_picker.h \
     mainwindow.h \
     milestone_widget.h \
     parameters.h
 
 FORMS += \
-    date_picker.ui \
+    components/color_picker.ui \
+    components/date_picker.ui \
     mainwindow.ui
 
 # Default rules for deployment.
