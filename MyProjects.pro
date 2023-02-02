@@ -14,6 +14,8 @@ SOURCES += \
     logic/a_project.cpp \
     logic/category.cpp \
     logic/checkpoint.cpp \
+    logic/milestone.cpp \
+    logic/milestone_project.cpp \
     logic/quantifiable_project.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -34,6 +36,8 @@ HEADERS += \
     logic/a_project.h \
     logic/category.h \
     logic/checkpoint.h \
+    logic/milestone.h \
+    logic/milestone_project.h \
     logic/quantifiable_project.h \
     mainwindow.h \
     milestone_widget.h \

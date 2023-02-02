@@ -4,6 +4,11 @@ Quantifiable_project::Quantifiable_project(int total_value, int status ): A_proj
 {
     current = checkpoints.begin();
 }
+Quantifiable_project::~Quantifiable_project(){
+    for( auto it : checkpoints ){
+        delete it ;
+    }
+}
 
 bool Quantifiable_project::is_finish() const
 {
@@ -22,8 +27,13 @@ void Quantifiable_project::remove_checkpoint(Checkpoint* c){
     checkpoints.erase(c);
 }
 
-void Quantifiable_project::addCheckPoint(Checkpoint* c) {
+void Quantifiable_project::addCheckPoint(Checkpoint* c) { //only for the checkpoint create with the new operator
         checkpoints.insert(c) ;
+}
+
+void Quantifiable_project::addCheckPoint(QDate d , int value ) {
+    Checkpoint* c = new Checkpoint(d, value) ;
+    checkpoints.insert(c) ;
 }
 
 //getters and setters

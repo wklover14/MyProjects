@@ -2,8 +2,7 @@
 
 //#include <QApplication>
 
-#include "logic/quantifiable_project.h"
-#include "logic/checkpoint.h"
+#include "logic/milestone_project.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,23 +10,34 @@ int main(int argc, char *argv[])
 //    MainWindow w;
 //    w.show();
 //    return a.exec();
+
     qDebug() << "Hello world " ;
-    Quantifiable_project p(100, 0) ;
-    Checkpoint c4( QDate(2023,02, 26) , 100 ) ;
-    Checkpoint c1( QDate(2023,01, 31) , 10 ) ;
-    Checkpoint c2( QDate(2023,02, 3) , 25 ) ;
-    Checkpoint c3( QDate(2023,02, 10) , 65 ) ;
+    Milestone_project p ;
+    qDebug() << "Hello world " ;
+    p.add_milestone( QDate(2023,02, 26) , "Milestone 4" ) ;
+    p.add_milestone( QDate(2023,01, 31) , "Milestone 1" ) ;
+    p.add_milestone( QDate(2023,02, 3) , "Milestone 2"  ) ;
+    p.add_milestone( QDate(2023,02, 10) , "Milestone 3"  ) ;
 
 
-    p.addCheckPoint(&c1) ; p.addCheckPoint(&c2) ; p.addCheckPoint(&c3) ;
-    p.addCheckPoint(&c4) ;
+//    p.add_milestone(&c1) ; p.add_milestone(&c2) ; p.add_milestone(&c3) ;
+//    p.add_milestone(&c4) ;
 
-     qDebug() << "Hello world " ;
-    //qDebug() << p.getCurrent()->getDate() ;
+    qDebug() << "Hello world " ;
+    qDebug() << p.getCurrent()->getDate() ;
 
     for( auto it : p ){
-        qDebug() << it->getDate() << "  " << it->getValue() ;
+        qDebug() << it->getDate() << "  " << it->getComment() << it->getIs_done() ;
     }
 
+    for( int i = 0 ; i < 5 ; i++ )
+    {
+        qDebug() << " step " << i << " state = "<< p.is_finish() ;
+        p.validate_step() ;
+        for( auto it : p ){
+            qDebug() << it->getDate() << "  " << it->getComment() << it->getIs_done() ;
+        }
+    }
+    qDebug() << "end" ;
     return 0 ;
 }

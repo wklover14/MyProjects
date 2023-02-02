@@ -12,6 +12,8 @@ class A_project {
 public :
     virtual void validate_step() = 0 ;
     virtual bool is_finish() const = 0 ;
+    virtual ~A_project() = default ;
+    A_project() = default;
 
     //getters and setters
 

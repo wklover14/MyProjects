@@ -18,11 +18,12 @@ private:
     iterator current ;
 public:
     Quantifiable_project(int total_value, int status );
-
+    ~Quantifiable_project() ;
     bool is_finish() const override ;
     void validate_step() override ;
 
     void addCheckPoint(Checkpoint* c) ;
+    void addCheckPoint(QDate d , int value ) ;
     void remove_checkpoint(Checkpoint* c) ;
 
     //getters and setters
