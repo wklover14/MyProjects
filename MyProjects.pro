@@ -11,6 +11,10 @@ CONFIG += c++17
 SOURCES += \
     components/color_picker.cpp \
     components/date_picker.cpp \
+    logic/a_project.cpp \
+    logic/category.cpp \
+    logic/checkpoint.cpp \
+    logic/quantifiable_project.cpp \
     main.cpp \
     mainwindow.cpp \
     parameters.cpp
@@ -27,6 +31,10 @@ HEADERS += \
     components/date_picker.h \
     components/milestone_widget.h \
     date_picker.h \
+    logic/a_project.h \
+    logic/category.h \
+    logic/checkpoint.h \
+    logic/quantifiable_project.h \
     mainwindow.h \
     milestone_widget.h \
     parameters.h
@@ -50,5 +58,4 @@ DISTFILES += \
     images/right_arrow.png \
     left_arrow.svg \
     number.svg \
-    plus.svg \
     right_arrow.svg
