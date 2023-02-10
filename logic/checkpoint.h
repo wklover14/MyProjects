@@ -1,26 +1,16 @@
 #ifndef CHECKPOINT_H
 #define CHECKPOINT_H
 
-#include <QDate>
+#include "step.h"
 
-class Checkpoint
+class Checkpoint : public Step
 {
 public:
-    Checkpoint(QDate d, int value);
-
-    void setDate(const QDate &newDate);
-
+    Checkpoint(QDate d,QString comment, int value);
+    ~Checkpoint();
     int getValue() const;
 
-    bool getIs_donne() const;
-
-    const QDate &getDate() const;
-
-    void setIs_donne(bool newIs_donne);
-
 private :
-    QDate date ;
-    bool is_donne ;
     int value ;
 };
 

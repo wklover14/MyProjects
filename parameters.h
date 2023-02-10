@@ -25,6 +25,12 @@ public:
      static int carrousel_height ;
      static int arrow_width ;
      static int arrow_height ;
+     static int item_width ;
+     static int item_height ;
+     static int icon_width ;
+     static int icon_height ;
+     static int category_width ;
+     static int label_width ;
 
      //all css
      static QString date_stylesheet ;
@@ -32,6 +38,13 @@ public:
      static QString text_stylesheet_2 ;
      static QString title_stylesheet ;
      static QString button_stylesheet ;
+     static QString underline_stylesheet ;
+     static QString icon_stylesheet ;
+     static QString carrousel_stylesheet ;
+     static QString milestone_stylesheet ;
+     static QString text_edit_stylesheet ;
+     static QString text_plain_edit_stylesheet ;
+
 };
 
 

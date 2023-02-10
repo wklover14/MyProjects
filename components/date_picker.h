@@ -16,6 +16,8 @@ class Date_picker : public QWidget
 public:
     explicit Date_picker(QWidget *parent = nullptr);
     ~Date_picker();
+    void set_date(QDate d) ;
+    QDate get_date() const ;
 
 private:
     Ui::Date_picker *ui;
@@ -23,6 +25,7 @@ private:
 
 signals :
     void mousePressEvent(QMouseEvent* e) override ;
+    void value_changed(QDate ) ;
 
 private slots:
     //handle click

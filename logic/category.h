@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <iostream>
+#include <QWidget>
 #include <list>
 
 #include "parameters.h"
@@ -18,6 +19,13 @@ public:
     void update_name(QString new_name) ;
     void remove_project(A_project* a) ;
     void add_project(A_project* a) ;
+    list<A_project*> get_project() const ;
+
+    const QString &getColor() const;
+    void setColor(const QString &newColor);
+
+    const QString &getName() const;
+    void setName(const QString &newName);
 
 private :
     QString name ;

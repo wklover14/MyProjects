@@ -53,5 +53,8 @@ void Color_picker::handleClick(QMouseEvent* mouseClickEvent){
 
     colors.setLayout(&layout) ;
     colors.exec();
+
+    emit color_change( item.getColor() );
+
     mouseClickEvent->isBeginEvent() ; //in order to avoid warning
 }

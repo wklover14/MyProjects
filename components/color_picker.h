@@ -21,6 +21,7 @@ private:
 
 signals :
     void mousePressEvent(QMouseEvent* e) override ;
+    void color_change(QColor);
 
 private slots:
     //handle click //generate the color selector

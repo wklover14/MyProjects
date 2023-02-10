@@ -26,11 +26,19 @@ int Parameters::carrousel_width = 407 ;
 int Parameters::carrousel_height = 150 ;
 int Parameters::arrow_width = 41 ;
 int Parameters::arrow_height = 38 ;
+int Parameters::item_width = 257 ;
+int Parameters::item_height = 55 ;
+int Parameters::icon_width = 46 ;
+int Parameters::icon_height = 42 ;
+int Parameters::category_width = 400 ;
+int Parameters::label_width = 170 ;
+
 
 QString Parameters::date_stylesheet =  "width: 127px;"
         "height: 34px;"
         "font-family: Arial;"
-        "font-size: 16px;"
+        "font-size: 14px;"
+        "text-align: center;"
         "color: #000000;"
         "font-style: italic;"
         "text-decoration: none solid rgb(0, 0, 0);"
@@ -39,9 +47,9 @@ QString Parameters::text_stylesheet_1 = "font-family: Arial;"
         "font-size: 16px;"
         "color: #000000;"
         "text-decoration: none solid rgb(0, 0, 0);"
-        "letter-spacing: 2px;" ;
+        "letter-spacing: 2px;";
 QString Parameters::text_stylesheet_2 = "font-family: Arial;"
-        "font-size: 16px;"
+        "font-size: 14px;"
         "color: #000000;"
         "text-decoration: none solid rgb(0, 0, 0);"
         "letter-spacing: 2px;" ;
@@ -62,4 +70,34 @@ QString Parameters::title_stylesheet = "width: 315px;"
         "color: #000000;"
         "text-decoration: none solid rgb(0, 0, 0);"
         "letter-spacing: 2px;"
-        "text-align: center;" ;
+        "text-align: center;"
+        "margin-bottom: 10px";
+QString Parameters::underline_stylesheet = "max-height: 2px; "
+        "background-color : #A478B8;";
+QString Parameters::icon_stylesheet = "max-width: 46px;"
+        "max-height: 42px;";
+
+QString Parameters::carrousel_stylesheet = "border : solid 2px;"
+        "border-color: gray" ;
+QString Parameters::milestone_stylesheet = "border : solid 2px;"
+        "border-color: black" ;
+
+QString Parameters::text_edit_stylesheet = "max-height: 25px;"
+        "max-width: 250px;"
+        "border: 1px solid #8c8c8c;"
+        "border-radius: 4px;"
+        "background-color: #ffffff;"
+        "font-family: Arial;"
+        "font-size: 14px;"
+        "color: #121212;"
+        "font-style: italic;";
+
+QString Parameters::text_plain_edit_stylesheet  = "max-height: 50px;"
+          "max-width: 300px;"
+          "border: 1px solid #8c8c8c;"
+          "border-radius: 4px;"
+          "background-color: #ffffff;"
+          "font-family: Arial;"
+          "font-size: 14px;"
+          "color: #121212;"
+          "font-style: italic;";

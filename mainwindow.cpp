@@ -1,23 +1,45 @@
+#include <QHBoxLayout>
+#include <QWidget>
+
+#include "view/pages.h"
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
 {
-    Milestone_widget* m1 = new Milestone_widget() ; m1->setComment(" Milestone 1") ;
-    Milestone_widget* m2 = new Milestone_widget ; m2->setComment(" Milestone 2") ;
-    Milestone_widget* m3 = new Milestone_widget ; m3->setComment(" Milestone 3") ;
-    c.add(m1) ; c.add(m2) ; c.add(m3) ;
+    //init
 
-    ui->setupUi(this);
-    ui->qMain->addWidget(&d) ;
-    ui->qMain->addWidget(&p) ;
-    ui->qMain->addWidget(&c) ;
+    Project_page* page1 = new Project_page() ;
+    Stat_page* page2 = new Stat_page() ;
+    Add_project_page* page3 = new Add_project_page() ;
+
+    pages->addWidget(page1);
+    pages->addWidget(page2);
+    pages->addWidget(page3);
+    pages->setCurrentWidget(page1);
+
+    QHBoxLayout* layout = new QHBoxLayout();
+    layout->addWidget(m);
+    layout->addWidget(pages);
+
+    QWidget* centralWidget = new QWidget();
+    centralWidget->setLayout(layout) ;
+    this->setCentralWidget(centralWidget);
+
+    connect(m, &Menu::selected_item, pages,[this,page1,page2,page3](int number){
+        switch(number){
+            case 1 : pages->setCurrentWidget(page1);
+                     break ;
+            case 2 : pages->setCurrentWidget(page2);
+                     break ;
+            case 3 : pages->setCurrentWidget(page3);
+                     break;
+        }
+    }) ;
+
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
 }
 

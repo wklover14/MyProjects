@@ -8,14 +8,25 @@
 #include <list>
 #include <QStackedWidget>
 
-#include "milestone_widget.h"
+#include "view/step_view.h"
 #include "parameters.h"
 
-//provide a carroussel of milestone ,
+//provide a carroussel of step_view ,
 using namespace std ;
 
 class Carrousel : public QWidget {
   Q_OBJECT
+
+private :
+    QPushButton* left_arrow  = new QPushButton();
+    QPushButton* right_arrow  = new QPushButton();
+    QHBoxLayout* layout  = new QHBoxLayout();
+    list<Step_view*> elements ;
+    QStackedWidget* elements_ = new QStackedWidget() ;
+
+    using iterator =  list<Step_view*>::iterator ;
+    iterator current ; //the element that will be print
+
 public :
     explicit Carrousel( QWidget* parent = nullptr) : QWidget(parent){
         current = elements.begin() ; //first element
@@ -41,15 +52,15 @@ public :
     } ;
     ~Carrousel(){} ;
 
-    void add(Milestone_widget* e) {
+    void add(Step_view* e) {
         elements.push_back(e) ;
-        //sort the list by date
-        elements.sort( [](Milestone_widget* e1,Milestone_widget* e2){
-            return e1->getDate() < e2->getDate() ;
-        } ) ;
         elements_->addWidget(e) ;
+        connect( e, &Step_view::value_changed , this, [e, this](){
+            emit step_changed(e->get_source()) ;
+        } ) ;
     };
-    void remove(Milestone_widget* e) {
+
+    void remove(Step_view* e) {
         if( e == *current )
         {
             next() ;
@@ -61,6 +72,15 @@ public :
         elements_->removeWidget(e) ;
     };
 
+    void remove_all() {
+        //remova all elements from carrousel
+        elements.clear() ;
+        for(int i=0 ; i < elements_->count() ; i++ ){
+            elements_->removeWidget( elements_->widget(i) ) ;
+        }
+    }
+signals :
+    void step_changed(Step*) ;
 
 public slots :
     void next()  {
@@ -68,9 +88,9 @@ public slots :
         if( current == elements.end() )//return at the begining
         {
             current = elements.begin() ;
-            qDebug() << "return to beginning" ;
+            //qDebug() << "return to beginning" ;
         }
-        qDebug() << "next \n"  ;
+        //qDebug() << "next \n"  ;
 
         elements_->setCurrentWidget( *current ) ;  // display the new element
         this->update() ;
@@ -80,27 +100,18 @@ public slots :
         {
             current = elements.end() ;
             current-- ;
-            qDebug() << "return to the last \n"  ;
+            //qDebug() << "return to the last \n"  ;
         }
         else
         {
             current--;
-            qDebug() << "previous \n"  ;
+            //qDebug() << "previous \n"  ;
         }
 
         elements_->setCurrentWidget( *current ) ;  // display the new element
         this->update() ;
     } ;
 
-private :
-    QPushButton* left_arrow  = new QPushButton();
-    QPushButton* right_arrow  = new QPushButton();
-    QHBoxLayout* layout  = new QHBoxLayout();
-    list<Milestone_widget*> elements ;
-    QStackedWidget* elements_ = new QStackedWidget() ;
-
-    using iterator =  list<Milestone_widget*>::iterator ;
-    iterator current ; //the element that will be print
 };
 
 #endif // CARROUSEL_H

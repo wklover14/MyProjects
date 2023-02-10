@@ -2,18 +2,22 @@
 #define A_PROJECT
 
 #include <iostream>
+#include <set>
 #include <QString>
 #include <QDate>
 #include <QFile>
+#include <QWidget>
 
 using namespace std ;
 
 class A_project {
 public :
-    virtual void validate_step() = 0 ;
     virtual bool is_finish() const = 0 ;
+    virtual int getPercent() const = 0 ;
+    virtual QWidget* widget() = 0 ; //this method return a unique view on a project, if this view doesn't exist it'll be created
+
     virtual ~A_project() = default ;
-    A_project() = default;
+    A_project(QString name, int priority);
 
     //getters and setters
 

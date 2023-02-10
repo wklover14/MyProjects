@@ -1,5 +1,8 @@
 #include "a_project.h"
 
+A_project::A_project(QString name, int priority) : name(name),priority(priority){
+
+}
 
 //getters and setters
 

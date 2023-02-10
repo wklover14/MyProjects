@@ -2,10 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "components/date_picker.h"
-#include "components/color_picker.h"
-#include "components/milestone_widget.h"
-#include "components/carrousel.h"
+#include <QStackedWidget>
+
+#include "components/menu.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,10 +20,9 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
-    Date_picker d ;
-    Color_picker p ;
-    Milestone_widget m ;
-    Carrousel c ;
+    //elements for the interface
+    Menu* m = new Menu() ;
+    QStackedWidget* pages = new QStackedWidget() ;
+
 };
 #endif // MAINWINDOW_H
