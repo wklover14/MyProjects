@@ -10,6 +10,7 @@
 
 #include "parameters.h"
 #include "project_picker_view.h"
+#include "logic/category.h"
 
 class Project_page : public QWidget
 {
@@ -20,6 +21,7 @@ private :
     QVBoxLayout* categories_layout = new QVBoxLayout() ; //layout for adding category_view
     QLabel* detail = new QLabel("Detail") ;
     QVBoxLayout* detail_layout = new QVBoxLayout() ;
+    QWidget* current = nullptr ; //the widget in the detail_layout
 
 public :
     Project_page(QWidget* parent= nullptr) : QWidget(parent)
@@ -54,6 +56,24 @@ public :
         this->setLayout( layout ) ;
     } ;
     ~Project_page(){} ;
+
+    void add_category(Category* c){
+        categories_layout->addWidget(c->widget()) ;
+    }
+
+    void remove_categories(Category* c) {
+        categories_layout->removeWidget(c->widget()) ;
+    }
+
+    void set_current_project(A_project* a){
+        if( current != nullptr ){
+            detail_layout->removeWidget( current );
+            current->hide() ;
+        }
+        detail_layout->addWidget( a->widget() );
+        current = a->widget() ;
+        current->show();
+    }
 };
 
 class Stat_page : public QWidget
@@ -87,8 +107,16 @@ public :
         layout->addWidget(add_page);
         layout->addWidget( picker );
         this->setLayout(layout);
+
+        //notify that a project is created
+        connect( picker, &Project_picker_view::project_created, this , [this](A_project* a){
+            emit project_created(a) ;
+        } ) ;
     } ;
     ~Add_project_page(){} ;
+
+signals:
+    void project_created(A_project*) ;
 };
 
 

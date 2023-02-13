@@ -21,6 +21,9 @@ public:
     void add_project(A_project* a) ;
     list<A_project*> get_project() const ;
 
+    QWidget* widget() ;
+    void reload() ;
+
     const QString &getColor() const;
     void setColor(const QString &newColor);
 
@@ -30,6 +33,7 @@ public:
 private :
     QString name ;
     QString color ;
+    QWidget* view = nullptr ;
 };
 
 #endif // CATEGORY_H

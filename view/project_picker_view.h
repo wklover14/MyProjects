@@ -15,7 +15,6 @@
 
 #include "components/date_picker.h"
 #include "parameters.h"
-#include "logic/a_project.h"
 #include "logic/project_step.h"
 #include "logic/project_value.h"
 #include "logic/project_step_value.h"
@@ -115,7 +114,7 @@ public:
 
         //connect
         //if there is no value we hide the text input for the value
-        connect( is_value, &QRadioButton::toggled, this , [this](bool value){
+        connect( is_value, &QCheckBox::clicked, this , [this](bool value){
             if( value ){
                 total_value_selector->show();
             } else {
@@ -175,7 +174,7 @@ private slots :
             p->setEnd_date( end->get_date()  ) ;
             p->setDescription( des );
             emit project_created(p) ;
-        } else if( is_value ){
+        } else if( is_value->isChecked() ){
             //project with value
             Project_value* p = new Project_value(name, pr, total_value, 0 ) ;
             p->setBegin_date( begin->get_date() );

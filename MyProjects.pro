@@ -47,6 +47,7 @@ HEADERS += \
     mainwindow.h \
     milestone_widget.h \
     parameters.h \
+    view/a_project_view.h \
     view/category_view.h \
     view/checkpoint_view.h \
     view/milestone_view.h \

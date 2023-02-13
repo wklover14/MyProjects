@@ -10,19 +10,20 @@
 #include "components/text_picker.h"
 #include "components/date_picker.h"
 
-class Project_value_view : public QWidget
+class Project_value_view : public A_project_view
 {
     Q_OBJECT
 private:
     Project_value* source ;
     Text_picker* project_name = new Text_picker() ;
-    Text_picker* value_status = new Text_picker() ;
+    Text_picker* value_status = new Text_picker("Change the value", "enter the new value") ;
     Date_picker* begin = new Date_picker() ;
     Date_picker* end = new Date_picker() ;
 
     void notify_source_modified() { emit source_modified(source) ; }
+
 public:
-    Project_value_view(QWidget* parent = nullptr ) : QWidget(parent)
+    Project_value_view(Project_value* new_source, QWidget* parent = nullptr ) : A_project_view(parent), source(new_source)
     {
         QVBoxLayout* layout = new QVBoxLayout() ;
 
@@ -62,6 +63,7 @@ public:
             source->setBegin_date(new_date) ;
             notify_source_modified() ;
         } ) ;
+
         connect( end, &Date_picker::value_changed , this, [this](QDate new_date){
             source->setEnd_date(new_date) ;
             notify_source_modified() ;
@@ -77,6 +79,7 @@ public:
                value_status->setText( QString::number( source->getStatus() ) );
                return ;
            }
+           source->setStatus(new_status) ;
            notify_source_modified() ;
         } );
     }
@@ -86,10 +89,7 @@ public:
         begin->set_date( source->getBegin_date() ) ;
         end->set_date( source->getEnd_date() ) ;
         value_status->setText( QString::number(source->getStatus()) ) ;
-
     }
-signals :
-    void source_modified(Project_value*) ;
 };
 
 #endif // PROJECT_VALUE_VIEW_H

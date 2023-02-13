@@ -1,4 +1,5 @@
 #include "project_value.h"
+#include "view/project_value_view.h"
 
 Project_value::Project_value(QString name, int priority,int total_value, int status): A_project(name, priority),total_value(total_value),
     status(status)
@@ -40,6 +41,9 @@ void Project_value::setStatus(int newStatus)
     status = newStatus;
 }
 
-QWidget* Project_value::widget() {
-    return nullptr ;
+A_project_view* Project_value::widget() {
+    if( view == nullptr ){
+        view = new Project_value_view(this);
+    }
+    return view ;
 }

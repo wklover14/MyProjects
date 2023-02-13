@@ -12,8 +12,9 @@
 #include "components/text_picker.h"
 #include "components/date_picker.h"
 #include "components/carrousel.h"
+#include "view/a_project_view.h"
 
-class Project_step_value_view : public QWidget
+class Project_step_value_view : public A_project_view
 {
     Q_OBJECT
 private :
@@ -25,7 +26,7 @@ private :
     void notify_source_modified() { emit source_modified(source) ; }
 
 public :
-    Project_step_value_view(QWidget* parent = nullptr) : QWidget(parent)
+    Project_step_value_view(Project_step_value* new_source ,QWidget* parent = nullptr) : A_project_view(parent), source(new_source)
     {
         QVBoxLayout* layout = new QVBoxLayout() ;
 
@@ -62,14 +63,16 @@ public :
             notify_source_modified() ;
         } ) ;
 
-        //change on step
+        //change on checkpoints
         connect( carrousel, &Carrousel::step_changed , this , [this](Step* s){
             auto c  =  dynamic_cast<Checkpoint*>(s) ;
             auto tmp = source->get_checkpoint() ;
             auto it = tmp.find(c) ;
+
             //we need to verify if he can really validate this stepwith a specific method
             (*it)->setIs_done( !((*it)->getIs_done()) );
             notify_source_modified() ;
+
         } ) ;
     }
     ~Project_step_value_view() {}
@@ -85,8 +88,6 @@ public :
             carrousel->add( new Checkpoint_view(tmp) ) ;
         }
     }
-signals :
-    void source_modified(Project_step_value*) ;
 };
 
 #endif // PROJECT_STEP_VALUE_VIEW_H

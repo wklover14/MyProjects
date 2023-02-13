@@ -32,6 +32,7 @@ public:
     explicit Category_view( Category* c, QWidget* parent = nullptr): QWidget(parent), list<Project_view*>(),
         source( c )
     {
+        color_picker->set_color( source->getColor() );
         QHBoxLayout* name_Layout = new QHBoxLayout();
         name_Layout->addWidget(label);
         name_Layout->addStretch() ;
@@ -67,6 +68,10 @@ public:
         Project_view* view_p = new Project_view(p) ;
         list<Project_view*>::push_back(view_p) ;
         layout->addWidget(view_p);
+
+        //we connect the new project_view with his project detail
+        connect( p->widget(), &A_project_view::source_modified, view_p , &Project_view::update_s ) ;
+        view_p->setColor(  source->getColor() );
 
         connect( view_p, &Project_view::mousePressEvent, this, [this, p](QMouseEvent* event){
              emit project_selected(p); //notify that this project is selected

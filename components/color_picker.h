@@ -13,6 +13,9 @@ class Color_picker : public QWidget
 
 public:
     explicit Color_picker(QWidget *parent = nullptr) ;
+    void set_color(QColor c){
+        item.setColor(c) ;
+    }
     ~Color_picker();
 
 private:

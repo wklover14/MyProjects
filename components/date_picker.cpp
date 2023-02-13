@@ -32,6 +32,7 @@ void Date_picker::handleClick(QMouseEvent* mouseCliclEvent){
     //create pop up
     QDialog *customDialog = new QDialog();
     customDialog->setWindowTitle("Select your date");
+    ui->label->setText( QDate::currentDate().toString() ) ;
 
     QVBoxLayout *layout = new QVBoxLayout();
 

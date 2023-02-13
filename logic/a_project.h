@@ -7,14 +7,16 @@
 #include <QDate>
 #include <QFile>
 #include <QWidget>
+#include "view/a_project_view.h"
 
 using namespace std ;
+class A_project_view ;
 
 class A_project {
 public :
     virtual bool is_finish() const = 0 ;
     virtual int getPercent() const = 0 ;
-    virtual QWidget* widget() = 0 ; //this method return a unique view on a project, if this view doesn't exist it'll be created
+    virtual A_project_view* widget() = 0 ; //this method return a unique view on a project, if this view doesn't exist it'll be created
 
     virtual ~A_project() = default ;
     A_project(QString name, int priority);

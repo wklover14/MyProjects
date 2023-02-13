@@ -17,6 +17,7 @@ public:
 
 private:
     Project_step adapter;
+    A_project_view* view = nullptr ;
 
 public:
     Project_step_value(QString name, int priority);
@@ -25,7 +26,7 @@ public:
     void validate_step() ;
     bool is_finish() const override ;
     int getPercent() const override ;
-    QWidget* widget() override ;
+    A_project_view* widget() override ;
     void add_Checkpoint(QDate new_date, QString new_comment,int value ) ;
     void add_Checkpoint(Checkpoint* c) ;
     void remove_Checkpoint(Checkpoint* c) ;

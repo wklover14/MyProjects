@@ -1,4 +1,5 @@
 #include "project_step_value.h"
+#include "view/project_step_value_view.h"
 
 
 Project_step_value::Project_step_value(QString name, int priority) : A_project(name, priority),
@@ -46,6 +47,10 @@ set<Checkpoint* , checkpointCmp> Project_step_value::get_checkpoint()  {
     return res ;
 }
 
-QWidget* Project_step_value::widget() {
-    return nullptr ;
+A_project_view* Project_step_value::widget() {
+    if( view == nullptr )
+    {
+        view = new Project_step_value_view(this) ;
+    }
+    return view ;
 }

@@ -62,7 +62,7 @@ int Project_step::getPercent() const {
     return total != 0 ? status * 100 / total : 0 ;
 }
 
-QWidget* Project_step::widget() {
+A_project_view* Project_step::widget() {
     if( view == nullptr )
         view = new Project_step_view(this) ;
     return view ;

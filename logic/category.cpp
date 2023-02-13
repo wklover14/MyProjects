@@ -1,4 +1,5 @@
 #include "category.h"
+#include "view/category_view.h"
 
 Category::Category(QString name, QString color) : list<A_project*>() ,name(name), color(color)
 {
@@ -10,6 +11,10 @@ void Category::update_name(QString new_name){
 
 void Category::remove_project(A_project* a){
     list<A_project*>::remove(a) ;
+
+    //widget
+    Category_view* tmp = dynamic_cast<Category_view*>( widget() ) ;
+    tmp->remove_project(a) ;
 }
 
 void Category::add_project(A_project* a){
@@ -20,6 +25,25 @@ void Category::add_project(A_project* a){
         }
     }
     list<A_project*>::push_back( a );
+
+    //widget
+    Category_view* tmp = dynamic_cast<Category_view*>(widget()) ;
+    tmp->add_project(a) ;
+}
+
+QWidget* Category::widget() {
+    if( view == nullptr ) {
+        view = new Category_view(this) ;
+    }
+    return view ;
+}
+
+void Category::reload() {
+    if( view == nullptr ) return  ;
+    Category_view* tmp = dynamic_cast<Category_view*>(view) ;
+    qDebug() << "Widget = " << view ;
+    qDebug() << " Tmp =" << tmp ;
+    tmp->reload() ;
 }
 
 list<A_project*> Category::get_project() const {

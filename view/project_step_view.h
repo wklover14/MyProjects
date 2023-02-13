@@ -10,9 +10,10 @@
 #include "components/date_picker.h"
 #include "components/carrousel.h"
 #include "logic/project_step.h"
+#include "view/a_project_view.h"
 
 
-class Project_step_view : public QWidget
+class Project_step_view : public A_project_view
 {
     Q_OBJECT
     //this class provide a widget for a project with step only,
@@ -22,9 +23,10 @@ private :
     Date_picker* begin = new Date_picker() ;
     Date_picker* end = new Date_picker() ;
     Carrousel* carrousel = new Carrousel() ;
+
     void notify_source_modified() { emit source_modified(source) ;   };
 public:
-    Project_step_view(Project_step* new_source,QWidget* parent = nullptr) : QWidget(parent), source(new_source)
+    Project_step_view(Project_step* new_source,QWidget* parent = nullptr) : A_project_view(parent), source(new_source)
     {
         QVBoxLayout* layout = new QVBoxLayout() ;
 
@@ -84,8 +86,6 @@ public:
             carrousel->add( new Step_view(*it) ) ;
         }
     }
-signals :
-    void source_modified(Project_step*) ;
 };
 
 #endif // PROJECT_STEP_VIEW_H

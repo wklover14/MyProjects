@@ -18,7 +18,7 @@ public:
 private :
     set<Step*, StepCmp> steps ;
     iterator current ;
-    QWidget* view = nullptr ;
+    A_project_view* view = nullptr ;
 
 public:
     Project_step(QString name, int priority);
@@ -31,7 +31,7 @@ public:
     void validate_step() ;
     bool is_finish() const override ;
     int getPercent() const override ;
-    QWidget* widget() override ;
+    A_project_view* widget() override ;
     set<Step*, StepCmp> get_steps() const ;
 
     iterator begin() {  return steps.begin() ; }

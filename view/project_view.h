@@ -8,11 +8,12 @@
 #include <QPalette>
 #include <QMouseEvent>
 
-#include "logic/a_project.h"
 #include "parameters.h"
+#include "logic/a_project.h"
 
 class Project_view : public QWidget
 {
+    //this class provide a progress bar in a category_view
     Q_OBJECT
 private :
     QLabel* label = new QLabel() ;
@@ -53,8 +54,9 @@ public :
     const A_project* get_project() const { return source ;  }
 
 public slots :
-    void update_status() {
-
+    void update_s(A_project* a) {
+        reload() ;
+        a->widget(); //avoid warning
     }
 
 signals :
