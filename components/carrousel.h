@@ -5,10 +5,11 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <iostream>
-#include <list>
+#include <set>
 #include <QStackedWidget>
 
 #include "view/step_view.h"
+#include "logic/step.h"
 #include "parameters.h"
 
 //provide a carroussel of step_view ,
@@ -21,11 +22,11 @@ private :
     QPushButton* left_arrow  = new QPushButton();
     QPushButton* right_arrow  = new QPushButton();
     QHBoxLayout* layout  = new QHBoxLayout();
-    list<Step_view*> elements ;
+    set<Step*, StepCmp> elements ;
     QStackedWidget* elements_ = new QStackedWidget() ;
 
-    using iterator =  list<Step_view*>::iterator ;
-    iterator current ; //the element that will be print
+    using iterator =  set<Step*, StepCmp>::iterator ;
+    iterator current = elements.begin() ; //the element that will be print
 
 public :
     explicit Carrousel( QWidget* parent = nullptr) : QWidget(parent){
@@ -52,63 +53,84 @@ public :
     } ;
     ~Carrousel(){} ;
 
-    void add(Step_view* e) {
-        elements.push_back(e) ;
-        elements_->addWidget(e) ;
-        connect( e, &Step_view::value_changed , this, [e, this](){
-            emit step_changed(e->get_source()) ;
+    void add(Step* e) {
+        elements.insert(e) ;
+        elements_->addWidget(e->widget()) ;
+        connect( dynamic_cast<Step_view*>(e->widget()), &Step_view::value_changed , this, [e, this](){
+            emit step_changed(e) ;
         } ) ;
     };
 
-    void remove(Step_view* e) {
+    void remove(Step* e) {
         if( e == *current )
         {
             next() ;
         }
-        if ( elements_->indexOf(e) == elements_->currentIndex() ){
+        if ( elements_->indexOf( e->widget() ) == elements_->currentIndex() ){
             elements_->setCurrentIndex( (elements_->currentIndex() + 1) % elements_->count() ) ;
         }
-        elements.remove(e) ;
-        elements_->removeWidget(e) ;
+        elements.erase(e) ;
+        elements_->removeWidget(e->widget()) ;
     };
 
     void remove_all() {
-        //remova all elements from carrousel
+        //remove all elements from carrousel
         elements.clear() ;
         for(int i=0 ; i < elements_->count() ; i++ ){
             elements_->removeWidget( elements_->widget(i) ) ;
         }
+    }
+
+    void reload(Step* s) {
+        int index = elements_->indexOf(s->widget()) ;
+        if( index != -1 )
+        {
+            //verify if the step is already present
+            if( s->getIs_done() == false ) {
+                dynamic_cast<Step_view*>(s->widget())->set_disabled(true) ;
+            } else {
+                dynamic_cast<Step_view*>(s->widget())->set_enabled(true) ;
+            }
+                dynamic_cast<Step_view*>(s->widget())->update() ; //step already present
+            return  ;
+        }
+        //if not, it'll be add
+        add( s ) ;
+    }
+
+    void set_current(Step* s) {
+        auto it = elements.find(s) ;
+        if( it == elements.end() ) //find the elements
+            return ;
+        current = it ;
+        elements_->setCurrentWidget( s->widget() ) ;
+        dynamic_cast<Step_view*>(s->widget())->set_enabled(true) ; //current is always enable
     }
 signals :
     void step_changed(Step*) ;
 
 public slots :
     void next()  {
-        current++;
-        if( current == elements.end() )//return at the begining
+        if( elements.empty() ) return ;
+        current++ ;
+        if( current == elements.end() )//last element
         {
-            current = elements.begin() ;
-            //qDebug() << "return to beginning" ;
+            current-- ;
+            return ;
         }
-        //qDebug() << "next \n"  ;
-
-        elements_->setCurrentWidget( *current ) ;  // display the new element
+        elements_->setCurrentWidget( (*current)->widget() ) ;  // display the new element
         this->update() ;
     };
-    void previous() {
-        if( current == elements.begin() )//return at the end
-        {
-            current = elements.end() ;
-            current-- ;
-            //qDebug() << "return to the last \n"  ;
-        }
-        else
-        {
-            current--;
-            //qDebug() << "previous \n"  ;
-        }
 
-        elements_->setCurrentWidget( *current ) ;  // display the new element
+    void previous() {
+        if( elements.empty() ) return ;
+        if( current == elements.begin() )//first element
+        {
+            return ;
+        }
+        current--;
+
+        elements_->setCurrentWidget( (*current)->widget() ) ;  // display the new element
         this->update() ;
     } ;
 

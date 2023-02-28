@@ -1,4 +1,5 @@
 #include "step.h"
+#include "view/step_view.h"
 
 Step::Step(QDate d, QString comment): date(d), is_done(false), comment(comment)
 {
@@ -36,4 +37,11 @@ const QString &Step::getComment() const
 void Step::setComment(const QString &newComment)
 {
     comment = newComment;
+}
+
+QWidget* Step::widget() {
+    if( source == nullptr ){
+        source = new Step_view(this) ;
+    }
+    return source ;
 }

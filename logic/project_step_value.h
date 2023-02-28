@@ -10,13 +10,12 @@
 
 using namespace std ;
 
-class Project_step_value : public A_project
+class Project_step_value : public Project_step
 {
 public:
      using iterator = Project_step::iterator ;
 
 private:
-    Project_step adapter;
     A_project_view* view = nullptr ;
 
 public:
@@ -33,8 +32,8 @@ public:
     Checkpoint* getCurrent() ;
     set<Checkpoint* , checkpointCmp> get_checkpoint()  ;
 
-    iterator begin(){ return adapter.begin() ;}
-    iterator end(){ return adapter.end() ; }
+    iterator begin(){ return Project_step::begin() ;}
+    iterator end(){ return Project_step::end() ; }
 };
 
 #endif // PROJECT_STEP_VALUE_H

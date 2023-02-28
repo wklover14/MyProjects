@@ -3,6 +3,7 @@
 
 #include <QDate>
 
+
 class Step
 {
 public:
@@ -17,10 +18,13 @@ public:
     const QString &getComment() const;
     void setComment(const QString &newComment);
 
+    QWidget* widget() ;
+
 protected :
     QDate date ;
     bool is_done ;
     QString comment ;
+    QWidget* source = nullptr ;
 };
 
 struct StepCmp{

@@ -101,3 +101,11 @@ QString Parameters::text_plain_edit_stylesheet  = "max-height: 50px;"
           "font-size: 14px;"
           "color: #121212;"
           "font-style: italic;";
+
+//path for images
+QString Parameters::path_calendar = "../MyProjects/images/calendar.png";
+QString Parameters::path_left_arrow = "../MyProjects/images/left_arrow.png";
+QString Parameters::path_right_arrow = "../MyProjects/images/right_arrow.png";
+QString Parameters::path_number = "../MyProjects/images/number.png" ;
+QString Parameters::path_plus = "../MyProjects/images/plus.png";
+QString Parameters::path_user = "../MyProjects/images/user.png";

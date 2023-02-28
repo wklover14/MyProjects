@@ -17,8 +17,10 @@ public:
      using iterator = set<Step*, StepCmp >::iterator ;
 private :
     set<Step*, StepCmp> steps ;
-    iterator current ;
+    iterator current ; //the first unvalidate step
     A_project_view* view = nullptr ;
+    QString message = "" ;
+    bool check_step_add(Step* s) ;
 
 public:
     Project_step(QString name, int priority);
@@ -29,6 +31,7 @@ public:
     Step* getCurrent() ;
 
     void validate_step() ;
+    void update_step(Step* s) ;
     bool is_finish() const override ;
     int getPercent() const override ;
     A_project_view* widget() override ;

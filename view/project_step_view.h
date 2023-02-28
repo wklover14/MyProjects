@@ -5,26 +5,32 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QMessageBox>
 
 #include "components/text_picker.h"
 #include "components/date_picker.h"
 #include "components/carrousel.h"
+#include "components/icon_button.h"
 #include "logic/project_step.h"
+#include "logic/projectException.h"
 #include "view/a_project_view.h"
+#include "view/step_picker_view.h"
 
 
 class Project_step_view : public A_project_view
 {
     Q_OBJECT
     //this class provide a widget for a project with step only,
-private :
+protected :
     Project_step* source ;
     Text_picker* project_name = new Text_picker() ;
     Date_picker* begin = new Date_picker() ;
     Date_picker* end = new Date_picker() ;
     Carrousel* carrousel = new Carrousel() ;
+    Icon_button* add_step_button = new Icon_button() ;
 
     void notify_source_modified() { emit source_modified(source) ;   };
+
 public:
     Project_step_view(Project_step* new_source,QWidget* parent = nullptr) : A_project_view(parent), source(new_source)
     {
@@ -32,20 +38,27 @@ public:
 
         QHBoxLayout* date_layout = new QHBoxLayout() ;
         date_layout->setSpacing(0) ;
-        date_layout->addWidget( new QLabel("Begin", this) );
+        QLabel* begin_label = new QLabel("Begin", this)  ;
+        date_layout->addWidget( begin_label );
         date_layout->addWidget(begin);
-        date_layout->addWidget( new QLabel("end", this) );
-        date_layout->addWidget(end) ;
+
+        QHBoxLayout* date_layout2 = new QHBoxLayout() ;
+        QLabel* end_label = new QLabel("End", this)  ;
+        date_layout2->addWidget( end_label );
+        date_layout2->addWidget(end) ;
 
         layout->addWidget( project_name );
         layout->addLayout(date_layout) ;
+        layout->addLayout(date_layout2) ;
         layout->addWidget(carrousel) ;
         layout->setAlignment(Qt::AlignTop);
         layout->setAlignment(Qt::AlignJustify);
-        layout->addStretch();
+        layout->addWidget(add_step_button) ;
 
-        reload() ;
         this->setLayout(layout) ;
+
+        //load data
+        this->reload() ;
 
         //change on the name of the project
         connect( project_name , &Text_picker::value_changed , this , [this](QString new_name){
@@ -65,26 +78,53 @@ public:
 
         //change on step
         connect( carrousel, &Carrousel::step_changed , this , [this](Step* s){
-            auto tmp = source->get_steps() ;
-            auto it = tmp.find(s) ;
-            //we need to verify if he can really validate this stepwith a specific method
-            (*it)->setIs_done( !((*it)->getIs_done()) );
+            //validate the step
+            try{
+                source->update_step(s) ;
+            } catch ( ProjectException* e ) {
+                QMessageBox m( QMessageBox::Warning ,"Error", e->get_message(), QMessageBox::Ok ) ;
+                m.exec() ;
+            }
+
+            this->reload() ;
+            //update the project view
             notify_source_modified() ;
         } ) ;
+
+        //add step
+        connect(add_step_button, &Icon_button::mousePressEvent, this, &Project_step_view::handle_step_creation) ;
 
     }
     ~Project_step_view(){}
 
-    void reload(){
+    virtual void reload(){
         project_name->setText( source->getName() ) ;
         begin->set_date( source->getBegin_date() ) ;
         end->set_date( source->getEnd_date() ) ;
-        carrousel->remove_all() ;
 
         //adding all steps to carrousel
         for(auto it = source->begin() ; it != source->end() ; it++){
-            carrousel->add( new Step_view(*it) ) ;
+            carrousel->reload( *it ) ;
         }
+        carrousel->set_current( source->getCurrent() ) ;
+    }
+
+private slots:
+    void handle_step_creation(QMouseEvent*) {
+        Step_picker_view* p = new Step_picker_view() ;
+        connect(p, &Step_picker_view::step_created, this, [this](Step* s){
+               try {
+                   source->add_step( s ) ;
+                   carrousel->add( s );
+                   this->reload() ;
+                   notify_source_modified() ;
+                } catch ( ProjectException* e ){
+                   QMessageBox m( QMessageBox::Warning ,"Error", e->get_message(), QMessageBox::Ok ) ;
+                   m.exec() ;
+               }
+
+        }) ;
+        p->exec() ;
     }
 };
 

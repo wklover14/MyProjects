@@ -4,10 +4,12 @@
 #include "step_view.h"
 #include "logic/checkpoint.h"
 
+class Checkpoint ;
 class Checkpoint_view : public Step_view
 {
 private:
     QLabel* value = new QLabel() ;
+
 public:
     Checkpoint_view(Checkpoint* new_source, QWidget* parent= nullptr): Step_view(new_source, parent)
     {

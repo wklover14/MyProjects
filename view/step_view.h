@@ -22,14 +22,13 @@ public :
         date->setText(s->getDate().toString());
 
         // comment.setText( QString::number(c->getValue()) );
-        if(!s->getIs_done())
+        if(!source->getIs_done())
             action->setText("validate") ;
         else
             action->setText("undo") ;
 
         //style
         date->setStyleSheet( Parameters::date_stylesheet ) ;
-        action->setStyleSheet( Parameters::button_stylesheet ) ;
         this->setMaximumSize( Parameters::milestone_width , Parameters::milestone_height ) ;
 
         QVBoxLayout* layout = new QVBoxLayout() ;
@@ -42,15 +41,16 @@ public :
         layout->addLayout( button_layout ) ;
 
         this->setLayout( layout ) ;
-        this->setStyleSheet(Parameters::milestone_stylesheet) ;
+        //this->setStyleSheet(Parameters::milestone_stylesheet) ;
 
         connect( action, &QPushButton::released , this , &Step_view::toggle_button_action_value  ) ;
-
         //animation for action button
     } ;
     ~Step_view(){} ;
     QDate getDate()const { return QDate::currentDate() ; }
     Step* get_source() const { return source ; }
+    void set_disabled(bool b) { action->setDisabled(b) ;  }
+    void set_enabled(bool b) {action->setEnabled(b) ; }
 
 signals:
     void value_changed() ;
@@ -59,12 +59,12 @@ private slots :
     void toggle_button_action_value()
     {
         if( source->getIs_done() ){
-            //do something to the reel milestone
-            action->setText("undo") ;
+            //do something to the reel step
+            action->setText("validate") ;
             source->setIs_done(false) ;
         } else {
-            //do something to the real milestone
-            action->setText("validate") ;
+            //do something to the real step
+            action->setText("undo") ;
             source->setIs_done(true) ;
         }
         //notify that there is a new value
@@ -72,8 +72,6 @@ private slots :
     };
 
 private :
-    // any class with  "_widget" particle will do a aggregation of a class without particle,
-    // in order to represent this main class
     QLabel* date = new QLabel() ;
     QPushButton* action  = new QPushButton() ;
     Step* source;

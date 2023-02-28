@@ -33,6 +33,7 @@ HEADERS += \
     components/color_item.h \
     components/color_picker.h \
     components/date_picker.h \
+    components/icon_button.h \
     components/menu.h \
     components/menu_item.h \
     components/text_picker.h \
@@ -40,6 +41,7 @@ HEADERS += \
     logic/a_project.h \
     logic/category.h \
     logic/checkpoint.h \
+    logic/projectException.h \
     logic/project_step.h \
     logic/project_step_value.h \
     logic/project_value.h \
@@ -47,16 +49,17 @@ HEADERS += \
     mainwindow.h \
     milestone_widget.h \
     parameters.h \
+    view/Checkpoint_picker_view.h \
     view/a_project_view.h \
     view/category_view.h \
     view/checkpoint_view.h \
-    view/milestone_view.h \
     view/pages.h \
     view/project_picker_view.h \
     view/project_step_value_view.h \
     view/project_step_view.h \
     view/project_value_view.h \
     view/project_view.h \
+    view/step_picker_view.h \
     view/step_view.h
 
 FORMS += \

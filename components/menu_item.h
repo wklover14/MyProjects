@@ -49,6 +49,7 @@ public:
 
 signals :
     void mousePressEvent(QMouseEvent* event) override ;
+
 public slots :
     void toggle_active() {
         if( underline->isHidden() ){

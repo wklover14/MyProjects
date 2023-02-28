@@ -45,6 +45,14 @@ public:
      static QString text_edit_stylesheet ;
      static QString text_plain_edit_stylesheet ;
 
+     //path for images
+     static QString path_calendar ;
+     static QString path_left_arrow ;
+     static QString path_right_arrow ;
+     static QString path_number ;
+     static QString path_plus ;
+     static QString path_user ;
+
 };
 
 

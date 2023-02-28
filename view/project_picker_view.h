@@ -32,6 +32,7 @@ private:
     QPushButton* ok_button = new QPushButton("Add") ;
     QPushButton* clear_button = new QPushButton("Clear") ;
     Date_picker* begin = new Date_picker(this), *end = new Date_picker(this);
+
 public:
     Project_picker_view(QWidget* parent = nullptr) : QWidget(parent)
     {
@@ -48,6 +49,7 @@ public:
         priority_selector->setRange(0, 10) ;
         total_value_selector->setRange(10, 1000) ;
         total_value_selector->setSingleStep(10) ;
+        begin->set_date(QDate::currentDate()) ; end->set_date(QDate::currentDate()) ;
 
         //layout creation and adding item
         QHBoxLayout* name_layout = new QHBoxLayout() ;

@@ -1,4 +1,5 @@
 #include "project_step.h"
+#include "logic/projectException.h"
 #include "view/project_step_view.h"
 
 Project_step::Project_step(QString name, int priority) : A_project(name, priority)
@@ -13,12 +14,31 @@ Project_step::~Project_step(){
     }
 }
 
-void Project_step::add_step(QDate new_date, QString new_comment ){
+bool Project_step::check_step_add(Step* s) {
+    bool rs = true ;
+    message = "" ;
+
+    if( s->getDate() > getEnd_date() || s->getDate() < getBegin_date() ) {
+        //error, you can't add step after the end of the project
+        message += "You can't add step after the end of the project \n You can't add a step before the begining of the project" ;
+        rs = false ;
+    }
+    return rs ;
+}
+
+void Project_step::add_step(QDate new_date, QString new_comment ) {
     Step* m = new Step(new_date, new_comment) ;
+    if( !check_step_add(m) ){
+        throw new ProjectException(message) ;
+    }
     steps.insert(m) ;
 }
-void Project_step::add_step(Step* m) { //we need to use this method only for Milestone creates with a new
-     steps.insert(m) ;
+
+void Project_step::add_step(Step* m){ //we need to use this method only for Milestone creates with a new
+    if( !check_step_add(m) ){
+        throw new ProjectException(message) ;
+    }
+    steps.insert(m) ;
 }
 
 void Project_step::remove_step(Step* m){
@@ -36,18 +56,41 @@ Step* Project_step::getCurrent(){
             break ;
         }
     }
+    if( current == steps.end() && current != steps.begin() ) current-- ; //to really have the last element, verify if the carrousel is empty also
     return *current ;
 }
 
 void Project_step::validate_step(){
     if( is_finish() ) { return  ; }
-    ( *current )->setIs_done(true) ;
     current++ ;
+}
+
+void Project_step::update_step(Step* s) {
+    auto tmp = steps.find(s) ;
+    getCurrent() ;
+
+    if( tmp == steps.end() ){
+        throw new ProjectException(" There is no step !! ") ;
+        return ;
+    }
+    if( s->getDate() > getCurrent()->getDate() ) {
+        //You need to validate all the steps which are before
+        throw new ProjectException(" You need to validate all the steps which are before !! ") ;
+        return ;
+    }
+    if( ! s->getIs_done() ) {
+        //we unvalide all the next steps
+        while( tmp != steps.end() ){
+            qDebug() << "test" ;
+            (*tmp)->setIs_done(false) ;
+            tmp++;
+        }
+    }
 }
 
 bool Project_step::is_finish() const {
     iterator last = steps.end() ;
-    last-- ;
+    last--;
     return (*last)->getIs_done()  && last != steps.begin() ;
 }
 

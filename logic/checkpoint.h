@@ -10,8 +10,11 @@ public:
     ~Checkpoint();
     int getValue() const;
 
+    QWidget* widget(); //surcharge de cette methode
+
 private :
     int value ;
+    QWidget* source ;
 };
 
 struct checkpointCmp{
