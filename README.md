@@ -9,5 +9,6 @@ The application works as follows :
     -> The created projects you can manage from the tab "MyProjects" of the vertical menu. And thus enter your progress in an intuitive way.      
     ![Screenshot_20230128_194442](https://user-images.githubusercontent.com/102849982/222454971-56a92f6f-084e-4bd5-bc32-89b2b451d186.png)                      
     -> From the Stats tab of the vertical menu, you can consult stats like the number of completed projects, the number of late projects, your task execution score...
-   ![Screenshot_20230128_180624](https://user-images.githubusercontent.com/102849982/222455769-5a380547-5560-47d8-9902-7745e33e54d5.png)        
+     ![Screenshot_20230128_181701](https://user-images.githubusercontent.com/102849982/222458469-deebe8e8-6817-4612-bd30-80e7190edb94.png)            
+        
    -> Your data is stored in a secure database and only you have access to it.     
