@@ -17,6 +17,7 @@ public:
 
 private:
     A_project_view* view = nullptr ;
+    QString message;
 
 public:
     Project_step_value(QString name, int priority);
@@ -29,6 +30,8 @@ public:
     void add_Checkpoint(QDate new_date, QString new_comment,int value ) ;
     void add_Checkpoint(Checkpoint* c) ;
     void remove_Checkpoint(Checkpoint* c) ;
+    void update_checkpoint(Checkpoint* c) ;
+    bool check_add_checkpoint(Checkpoint* c) ;
     Checkpoint* getCurrent() ;
     set<Checkpoint* , checkpointCmp> get_checkpoint()  ;
 

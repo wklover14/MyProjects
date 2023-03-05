@@ -81,14 +81,14 @@ public:
             //validate the step
             try{
                 source->update_step(s) ;
+                reload() ;
+                //update the project view
+                notify_source_modified() ;
             } catch ( ProjectException* e ) {
+                s->rollback() ;
                 QMessageBox m( QMessageBox::Warning ,"Error", e->get_message(), QMessageBox::Ok ) ;
                 m.exec() ;
             }
-
-            this->reload() ;
-            //update the project view
-            notify_source_modified() ;
         } ) ;
 
         //add step
@@ -109,23 +109,22 @@ public:
         carrousel->set_current( source->getCurrent() ) ;
     }
 
-private slots:
-    void handle_step_creation(QMouseEvent*) {
+protected slots:
+    virtual void handle_step_creation(QMouseEvent*) {
         Step_picker_view* p = new Step_picker_view() ;
+
         connect(p, &Step_picker_view::step_created, this, [this](Step* s){
                try {
                    source->add_step( s ) ;
                    carrousel->add( s );
-                   this->reload() ;
+                   reload() ;
                    notify_source_modified() ;
                 } catch ( ProjectException* e ){
                    QMessageBox m( QMessageBox::Warning ,"Error", e->get_message(), QMessageBox::Ok ) ;
                    m.exec() ;
                }
-
         }) ;
         p->exec() ;
     }
 };
-
 #endif // PROJECT_STEP_VIEW_H

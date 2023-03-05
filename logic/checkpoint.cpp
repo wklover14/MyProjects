@@ -10,6 +10,11 @@ Checkpoint::~Checkpoint(){
 
 }
 
+void Checkpoint::rollback() {
+    Step::rollback() ;
+    dynamic_cast<Checkpoint_view*>( widget() )->reload() ;
+}
+
 QWidget* Checkpoint::widget() {
     if( source == nullptr ){
         source = new Checkpoint_view(this) ;

@@ -18,12 +18,16 @@ public:
     const QString &getComment() const;
     void setComment(const QString &newComment);
 
-    QWidget* widget() ;
+    virtual void rollback() ;
+
+    virtual QWidget* widget() ;
 
 protected :
     QDate date ;
     bool is_done ;
     QString comment ;
+
+private :
     QWidget* source = nullptr ;
 };
 

@@ -8,17 +8,26 @@ class Checkpoint ;
 class Checkpoint_view : public Step_view
 {
 private:
+    Checkpoint* source ;
     QLabel* value = new QLabel() ;
 
 public:
-    Checkpoint_view(Checkpoint* new_source, QWidget* parent= nullptr): Step_view(new_source, parent)
+    Checkpoint_view(Checkpoint* new_source, QWidget* parent= nullptr): Step_view(new_source, parent), source(new_source)
     {
         value->setText(  QString::number(new_source->getValue())  );
-        Step_view::more_layout->addWidget( value );
+        Step_view::add_widget( value );
+    }
+    void reload() override {
+        value->setText( QString::number(source->getValue()) ) ;
+        Step_view::reload() ;
     }
     ~Checkpoint_view(){}
     QLabel *getValue() const;
     void setValue(QLabel *newValue);
+
+signals :
+    void step_changed(Step*) ;
+
 };
 
 inline QLabel *Checkpoint_view::getValue() const

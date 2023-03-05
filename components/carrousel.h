@@ -52,16 +52,14 @@ public :
         this->setLayout( layout ) ;
     } ;
     ~Carrousel(){} ;
-
-    void add(Step* e) {
+    void add(Step* e) { //add a step to the carrousel
         elements.insert(e) ;
         elements_->addWidget(e->widget()) ;
         connect( dynamic_cast<Step_view*>(e->widget()), &Step_view::value_changed , this, [e, this](){
             emit step_changed(e) ;
         } ) ;
     };
-
-    void remove(Step* e) {
+    void remove(Step* e) { //remove st
         if( e == *current )
         {
             next() ;
@@ -72,7 +70,6 @@ public :
         elements.erase(e) ;
         elements_->removeWidget(e->widget()) ;
     };
-
     void remove_all() {
         //remove all elements from carrousel
         elements.clear() ;
@@ -81,7 +78,7 @@ public :
         }
     }
 
-    void reload(Step* s) {
+    void reload(Step* s) { // disable the step if it is un_done
         int index = elements_->indexOf(s->widget()) ;
         if( index != -1 )
         {
@@ -91,14 +88,13 @@ public :
             } else {
                 dynamic_cast<Step_view*>(s->widget())->set_enabled(true) ;
             }
-                dynamic_cast<Step_view*>(s->widget())->update() ; //step already present
             return  ;
         }
         //if not, it'll be add
         add( s ) ;
     }
 
-    void set_current(Step* s) {
+    void set_current(Step* s) { // enable the current element
         auto it = elements.find(s) ;
         if( it == elements.end() ) //find the elements
             return ;

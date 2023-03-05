@@ -17,7 +17,6 @@ Project_step::~Project_step(){
 bool Project_step::check_step_add(Step* s) {
     bool rs = true ;
     message = "" ;
-
     if( s->getDate() > getEnd_date() || s->getDate() < getBegin_date() ) {
         //error, you can't add step after the end of the project
         message += "You can't add step after the end of the project \n You can't add a step before the begining of the project" ;
@@ -66,6 +65,8 @@ void Project_step::validate_step(){
 }
 
 void Project_step::update_step(Step* s) {
+    //after modifying a step, you need to call this method on his source
+
     auto tmp = steps.find(s) ;
     getCurrent() ;
 
@@ -81,7 +82,6 @@ void Project_step::update_step(Step* s) {
     if( ! s->getIs_done() ) {
         //we unvalide all the next steps
         while( tmp != steps.end() ){
-            qDebug() << "test" ;
             (*tmp)->setIs_done(false) ;
             tmp++;
         }

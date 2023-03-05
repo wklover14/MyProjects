@@ -15,13 +15,17 @@
 class Step_picker_view : public QDialog
 {
     Q_OBJECT
+    bool is_inherited = false ;
 protected :
     QPlainTextEdit* comment = new QPlainTextEdit() ;
     Date_picker* date = new Date_picker() ;
     QPushButton *okButton = new QPushButton("OK");
     QHBoxLayout* add_layout = new QHBoxLayout() ; //in order to add other field for inherited classes
+
     void add_widget(QWidget* item) {
+        //this function allow to all the inheritted class to add a widget to the father
         add_layout->addWidget(item) ;
+        is_inherited = true ;
     }
 
 public:
@@ -60,13 +64,19 @@ public:
         this->setLayout(layout) ;
         resize(200,200) ;
 
-        connect(okButton, &QPushButton::released, this,
+        connect( okButton, &QPushButton::released, this,
                 [this](){
-                    Step* step = new Step( date->get_date(), comment->toPlainText() );
-                    //send a signal to notify that there is a new value
-                    emit this->step_created(step) ;
+                    if( !is_inherited )
+                    {
+                        //if this layout is empty, it must be a inheritted class, wich will emit the signal,
+                        Step* step = new Step( date->get_date(), comment->toPlainText() );
+                        //send a signal to notify that there is a new value
+                        emit this->step_created(step) ;
+                    }
+
                     close() ;
                 } ) ;
+
         connect(cancelButton, &QPushButton::released, this, &Step_picker_view::close ) ;
     }
     virtual ~Step_picker_view(){}

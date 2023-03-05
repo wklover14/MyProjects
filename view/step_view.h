@@ -17,18 +17,12 @@ class Step_view : public QWidget
     Q_OBJECT
 public :
         Step_view(Step* s ,QWidget* parent = nullptr): QWidget(parent), source(s) {
-
         //content
-        date->setText(s->getDate().toString());
-
-        // comment.setText( QString::number(c->getValue()) );
-        if(!source->getIs_done())
-            action->setText("validate") ;
-        else
-            action->setText("undo") ;
+        reload() ;
 
         //style
         date->setStyleSheet( Parameters::date_stylesheet ) ;
+        description->setStyleSheet(Parameters::text_stylesheet_2 ) ;
         this->setMaximumSize( Parameters::milestone_width , Parameters::milestone_height ) ;
 
         QVBoxLayout* layout = new QVBoxLayout() ;
@@ -37,7 +31,8 @@ public :
         button_layout->setAlignment(Qt::AlignRight) ;
         button_layout->addWidget( action ) ;
         layout->addWidget( date ) ;
-        layout->addLayout(more_layout) ;
+        layout->addWidget( description ) ;
+        layout->addLayout( add_layout ) ;
         layout->addLayout( button_layout ) ;
 
         this->setLayout( layout ) ;
@@ -51,6 +46,16 @@ public :
     Step* get_source() const { return source ; }
     void set_disabled(bool b) { action->setDisabled(b) ;  }
     void set_enabled(bool b) {action->setEnabled(b) ; }
+
+    virtual void reload() {
+        date->setText(source->getDate().toString()) ;
+        description->setText( source->getComment() ) ;
+
+        if(!source->getIs_done())
+            action->setText("validate") ;
+        else
+            action->setText("undo") ;
+    }
 
 signals:
     void value_changed() ;
@@ -73,11 +78,13 @@ private slots :
 
 private :
     QLabel* date = new QLabel() ;
+    QLabel* description = new QLabel() ;
     QPushButton* action  = new QPushButton() ;
+    QVBoxLayout* add_layout = new QVBoxLayout() ;
     Step* source;
 
 protected :
-     QHBoxLayout* more_layout = new QHBoxLayout() ; //it will be use for adding external item to the widget
+    void add_widget(QWidget* item) {  add_layout->addWidget( item) ;  } ; //it will be use for adding external item to the widget by all inherited classes
 };
 
 #endif // STEP_VIEW_H

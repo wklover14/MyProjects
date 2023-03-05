@@ -9,6 +9,12 @@ Step::~Step(){
 
 }
 
+void Step::rollback() {
+    //this method unchange the previous changes
+    is_done = !is_done ;
+    dynamic_cast<Step_view*>( widget() )->reload() ;
+}
+
 const QDate &Step::getDate() const
 {
     return date;

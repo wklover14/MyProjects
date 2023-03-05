@@ -20,11 +20,12 @@ private :
     iterator current ; //the first unvalidate step
     A_project_view* view = nullptr ;
     QString message = "" ;
-    bool check_step_add(Step* s) ;
+
 
 public:
     Project_step(QString name, int priority);
     virtual ~Project_step()  ;
+    bool check_step_add(Step* s) ;
     void add_step(QDate new_date, QString new_comment ) ;
     void add_step(Step* m) ;
     void remove_step(Step* m) ;

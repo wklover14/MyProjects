@@ -22,17 +22,44 @@ int Project_step_value::getPercent() const {
     return Project_step::getPercent() ;
 }
 
+bool Project_step_value::check_add_checkpoint(Checkpoint* c){
+    bool rs = true ;
+    message = "" ;
+    //verify if the value and the date are consistent
+    for( auto it : Project_step::get_steps() ){
+        auto tmp = dynamic_cast<Checkpoint*>(it) ;
+        if( (tmp->getDate() > c->getDate() && tmp->getValue() < c->getValue() ) ||
+            (tmp->getDate() < c->getDate() && tmp->getValue() > c->getValue() ) )
+        {
+            rs = false ;
+            message += "Checkpoint { " + tmp->getDate().toString() +  " / " + QString::number( tmp->getValue() ) + " } is incompatible" ;
+            break ;
+        }
+    }
+    return rs ;
+}
+
 void Project_step_value::add_Checkpoint(QDate new_date, QString new_comment,int value ){
     Checkpoint* new_checkpoint = new Checkpoint(new_date, new_comment, value) ;
+    if( ! check_add_checkpoint(new_checkpoint) ) {
+        throw new ProjectException(message) ;
+    }
     Project_step::add_step(new_checkpoint) ;
 }
 
 void Project_step_value::add_Checkpoint(Checkpoint* c){
+    if( ! check_add_checkpoint(c) ) {
+        throw new ProjectException(message) ;
+    }
      Project_step::add_step(c) ;
 }
 
 void Project_step_value::remove_Checkpoint(Checkpoint* c){
      Project_step::remove_step(c) ;
+}
+
+void Project_step_value::update_checkpoint(Checkpoint* c){
+     Project_step::update_step( c ) ;
 }
 
 Checkpoint* Project_step_value::getCurrent() {

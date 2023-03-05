@@ -9,8 +9,9 @@ public:
     Checkpoint(QDate d,QString comment, int value);
     ~Checkpoint();
     int getValue() const;
+    void rollback() override ;
 
-    QWidget* widget(); //surcharge de cette methode
+    QWidget* widget() override ; //surcharge de cette methode
 
 private :
     int value ;

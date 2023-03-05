@@ -15,6 +15,9 @@ private :
 
 public :
     Checkpoint_picker_view(QWidget* parent = nullptr ) : Step_picker_view(parent)  {
+        QLabel* value_label = new QLabel("Valeur : ") ;
+        value_label->setStyleSheet( Parameters::text_stylesheet_2 ) ;
+        Step_picker_view::add_widget( value_label ) ;
         Step_picker_view::add_widget( value ) ;
 
         //connect
@@ -28,7 +31,7 @@ public :
                 return ;
             }
             Checkpoint* ch = new Checkpoint( date->get_date(), comment->toPlainText() , new_status ) ;
-            emit step_created(ch) ;
+            emit checkpoint_created(ch) ;
         } ) ;
     }
     ~Checkpoint_picker_view() {};
