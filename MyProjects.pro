@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     components/color_picker.cpp \
     components/date_picker.cpp \
+    database/category_db.cpp \
     logic/a_project.cpp \
     logic/category.cpp \
     logic/checkpoint.cpp \
@@ -37,6 +38,7 @@ HEADERS += \
     components/menu.h \
     components/menu_item.h \
     components/text_picker.h \
+    database/category_db.h \
     date_picker.h \
     logic/a_project.h \
     logic/category.h \
@@ -72,7 +74,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES += \
-    ../../../../Downloads/663338_removebg_preview-549cc3d3608f61f555f04e795365485c.png.png \
     calendar.svg \
     images/calendar.png \
     images/left_arrow.png \
@@ -82,4 +83,6 @@ DISTFILES += \
     images/user.png \
     left_arrow.svg \
     number.svg \
-    right_arrow.svg
+    right_arrow.svg \
+    scripts/create.sql \
+    scripts/init.sql

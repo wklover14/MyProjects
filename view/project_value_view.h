@@ -7,8 +7,11 @@
 #include <QMessageBox>
 
 #include "logic/project_value.h"
+#include "logic/projectException.h"
 #include "components/text_picker.h"
 #include "components/date_picker.h"
+
+#include "database/category_db.h"
 
 class Project_value_view : public A_project_view
 {
@@ -81,6 +84,10 @@ public:
            }
            source->setStatus(new_status) ;
            notify_source_modified() ;
+
+           //test for the category_db
+           Category_db c ;
+           c.fetch() ;
         } );
     }
     ~Project_value_view() {}
