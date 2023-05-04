@@ -65,3 +65,14 @@ void A_project::setPriority(int newPriority)
 {
     priority = newPriority;
 }
+
+
+int A_project::getId_project() const
+{
+    return id_project;
+}
+
+void A_project::setId_project(int newId_project)
+{
+    id_project = newId_project;
+}

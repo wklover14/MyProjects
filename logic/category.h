@@ -16,6 +16,7 @@ class Category : private list<A_project*>
 {
 public:
     Category(QString name, QString color = Parameters::colors_name[ COLORS::salmon ]);
+    ~Category() {};
     void update_name(QString new_name) ;
     void remove_project(A_project* a) ;
     void add_project(A_project* a) ;
@@ -30,9 +31,14 @@ public:
     const QString &getName() const;
     void setName(const QString &newName);
 
+    int getId_category() const;
+    void setId_category(int newId_category);
+
 private :
     QString name ;
     QString color ;
+    int idmanager ;
+    int id_category ;
     QWidget* view = nullptr ;
 };
 

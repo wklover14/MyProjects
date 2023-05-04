@@ -11,7 +11,10 @@ CONFIG += c++17
 SOURCES += \
     components/color_picker.cpp \
     components/date_picker.cpp \
+    database/a_project_db.cpp \
     database/category_db.cpp \
+    database/project_step_db.cpp \
+    database/step_db.cpp \
     logic/a_project.cpp \
     logic/category.cpp \
     logic/checkpoint.cpp \
@@ -38,7 +41,10 @@ HEADERS += \
     components/menu.h \
     components/menu_item.h \
     components/text_picker.h \
+    database/a_project_db.h \
     database/category_db.h \
+    database/project_step_db.h \
+    database/step_db.h \
     date_picker.h \
     logic/a_project.h \
     logic/category.h \

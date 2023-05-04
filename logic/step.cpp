@@ -51,3 +51,13 @@ QWidget* Step::widget() {
     }
     return source ;
 }
+
+int Step::getId_step() const
+{
+    return id_step;
+}
+
+void Step::setId_step(int newId_step)
+{
+    id_step = newId_step;
+}

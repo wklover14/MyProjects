@@ -2,6 +2,16 @@
 #include "logic/projectException.h"
 #include "view/project_step_view.h"
 
+int Project_step::getId_project_step() const
+{
+    return id_project_step;
+}
+
+void Project_step::setId_project_step(int newId_project_step)
+{
+    id_project_step = newId_project_step;
+}
+
 Project_step::Project_step(QString name, int priority) : A_project(name, priority)
 {
     current = steps.begin() ;

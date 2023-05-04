@@ -73,3 +73,13 @@ void Category::setName(const QString &newName)
 {
     name = newName;
 }
+
+int Category::getId_category() const
+{
+    return id_category;
+}
+
+void Category::setId_category(int newId_category)
+{
+    id_category = newId_category;
+}

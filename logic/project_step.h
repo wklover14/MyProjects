@@ -17,6 +17,7 @@ public:
      using iterator = set<Step*, StepCmp >::iterator ;
 private :
     set<Step*, StepCmp> steps ;
+    int id_project_step ;
     iterator current ; //the first unvalidate step
     A_project_view* view = nullptr ;
     QString message = "" ;
@@ -40,6 +41,12 @@ public:
 
     iterator begin() {  return steps.begin() ; }
     iterator end() { return steps.end() ; }
+
+    iterator begin() const {  return steps.begin() ; }
+    iterator end() const  { return steps.end() ; }
+
+    int getId_project_step() const;
+    void setId_project_step(int newId_project_step);
 };
 
 #endif // PROJECT_STEP_H

@@ -3,7 +3,6 @@
 
 #include <QDate>
 
-
 class Step
 {
 public:
@@ -22,13 +21,17 @@ public:
 
     virtual QWidget* widget() ;
 
+    int getId_step() const;
+
 protected :
     QDate date ;
     bool is_done ;
     QString comment ;
+    int id_step ;
 
 private :
     QWidget* source = nullptr ;
+    void setId_step(int newId_step);
 };
 
 struct StepCmp{

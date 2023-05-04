@@ -7,9 +7,12 @@
 #include <QDate>
 #include <QFile>
 #include <QWidget>
+
 #include "view/a_project_view.h"
 
 using namespace std ;
+
+//recurssif inlcusion
 class A_project_view ;
 
 class A_project {
@@ -41,6 +44,9 @@ public :
     int getPriority() const;
     void setPriority(int newPriority);
 
+    int getId_project() const;
+    void setId_project(int newId_project);
+
 protected :
     QString name ;
     QDate begin_date ;
@@ -49,6 +55,7 @@ protected :
     QString description ;
     list<QFile> documents ;
     int priority ;
+    int id_project ;
 };
 
 #endif

@@ -11,11 +11,11 @@ public:
     int getValue() const;
     void rollback() override ;
 
-    QWidget* widget() override ; //surcharge de cette methode
+    QWidget* widget() override ; //in order to replace the method inherited from Step
 
 private :
     int value ;
-    QWidget* source ;
+    QWidget* source = nullptr;
 };
 
 struct checkpointCmp{
