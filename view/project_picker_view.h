@@ -19,6 +19,8 @@
 #include "logic/project_value.h"
 #include "logic/project_step_value.h"
 
+#include "database/project_step_db.h"
+
 class Project_picker_view : public QWidget
 {
     Q_OBJECT
@@ -174,7 +176,7 @@ private slots :
             Project_step_value* p = new Project_step_value(name, pr) ;
             p->setBegin_date( begin->get_date() );
             p->setEnd_date( end->get_date()  ) ;
-            p->setDescription( des );
+            p->setDescription( des ) ;
             emit project_created(p) ;
         } else if( is_value->isChecked() ){
             //project with value
@@ -189,6 +191,11 @@ private slots :
             p->setBegin_date( begin->get_date() );
             p->setEnd_date( end->get_date()  ) ;
             p->setDescription( des );
+
+            //add to the database
+            project_step_db p_db;
+            p_db.insert(*p, 1) ; //0 for the default project
+
             emit project_created(p) ;
         }
         clear() ;

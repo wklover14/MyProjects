@@ -18,19 +18,15 @@ a_project_db::~a_project_db()
 
 void a_project_db::insert(const A_project & p, int id_category ) const
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL") ;
-    db.setHostName("localhost") ;
-    db.setDatabaseName("postgres") ;
-    db.setUserName("tuto") ;
-    db.setPassword("tuto") ;
+    QSqlDatabase db = connexion_db::get_instance() ;
 
     if( db.open() ) {
         qDebug() << " connected to database ";
         try {
-            QSqlQuery query ;
+            QSqlQuery query(db) ;
             query.prepare("INSERT INTO a_project"
             " ( id_category, name, begin_date, end_date, comment, description, priority)"
-            " VALUES( :id_category, ':name', ':begin_date', ':end_date', ':comment', ':description', :priority ); " ) ;
+            " VALUES( :id_category, :name, :begin_date, :end_date, :comment, :description, :priority ); " ) ;
             query.bindValue(":id_category" , id_category ) ;
             query.bindValue(":name", p.getName()) ;
             query.bindValue(":begin_date", p.getBegin_date()) ;
@@ -51,16 +47,10 @@ void a_project_db::insert(const A_project & p, int id_category ) const
 
 void a_project_db::remove(const A_project& p) const
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL") ;
-    db.setHostName("localhost") ;
-    db.setDatabaseName("postgres") ;
-    db.setUserName("tuto") ;
-    db.setPassword("tuto") ;
-
+    QSqlDatabase db = connexion_db::get_instance() ;
     if( db.open() ) {
-        qDebug() << " connected to database ";
         try {
-            QSqlQuery query ;
+            QSqlQuery query(db) ;
             query.prepare("DELETE FROM a_project "
                           "WHERE id_project = :id " ) ;
             query.bindValue(":id", p.getId_project() ) ;
@@ -75,22 +65,35 @@ void a_project_db::remove(const A_project& p) const
     db.close() ;
 }
 
+void a_project_db::remove(int id_project) const {
+    QSqlDatabase db = connexion_db::get_instance() ;
+
+    if( db.open() ){
+        try {
+            QSqlQuery query(db) ;
+            query.prepare("DELETE FROM a_project "
+                          "WHERE id_project = :id " ) ;
+            query.bindValue(":id", id_project ) ;
+            query.exec() ;
+            qDebug() << "DELETE ok" ;
+        } catch (QSqlError *e) {
+            qDebug() << e->text() ;
+        }
+    }
+}
+
 void a_project_db::update(const A_project & p) const
 {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL") ;
-    db.setHostName("localhost") ;
-    db.setDatabaseName("postgres") ;
-    db.setUserName("tuto") ;
-    db.setPassword("tuto") ;
+    QSqlDatabase db = connexion_db::get_instance() ;
 
     if( db.open() ) {
         qDebug() << " connected to database ";
         try {
-            QSqlQuery query ;
+            QSqlQuery query(db) ;
             query.prepare("UPDATE a_project"
-            " SET ( id_category = :id_category , name = ':name', "
-            " begin_date = :begin_date , end_date = :end_date , comment = :':comment'"
-            " , description = ':description', priority = :priority ) "
+            " SET ( id_category = :id_category , name = :name, "
+            " begin_date = :begin_date , end_date = :end_date , comment = :comment"
+            " , description = :description, priority = :priority ) "
             " WHERE id_project = :id ; " ) ;
             query.bindValue(":name", p.getName()) ;
             query.bindValue(":begin_date", p.getBegin_date()) ;

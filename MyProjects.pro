@@ -13,6 +13,7 @@ SOURCES += \
     components/date_picker.cpp \
     database/a_project_db.cpp \
     database/category_db.cpp \
+    database/connexion_db.cpp \
     database/project_step_db.cpp \
     database/step_db.cpp \
     logic/a_project.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     components/text_picker.h \
     database/a_project_db.h \
     database/category_db.h \
+    database/connexion_db.h \
     database/project_step_db.h \
     database/step_db.h \
     date_picker.h \

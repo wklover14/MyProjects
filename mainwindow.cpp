@@ -7,12 +7,20 @@
 #include "mainwindow.h"
 #include "parameters.h"
 
+#include "database/connexion_db.h"
+#include "database/category_db.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
 
     //init
+    connexion_db::init_connexion("gabby", "gabby");
+
     Category* c_defaut = new Category("Default", Parameters::hexa_code_colors[COLORS::quartz]) ;
+    Category_db c ;
+    c.insert(*c_defaut);
+
     Project_page* page1 = new Project_page( ) ;
     Stat_page* page2 = new Stat_page() ;
     Add_project_page* page3 = new Add_project_page() ;
@@ -49,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
         c_defaut->add_project(a) ;
     }) ;
 
-    //binding categories with their
+    //
     Category_view* tmp = dynamic_cast<Category_view*>( c_defaut->widget() ) ;
     connect( tmp, &Category_view::project_selected, this, [page1](A_project* a){
         page1->set_current_project(a);

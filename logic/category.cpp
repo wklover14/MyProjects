@@ -29,6 +29,7 @@ void Category::add_project(A_project* a){
     //widget
     Category_view* tmp = dynamic_cast<Category_view*>(widget()) ;
     tmp->add_project(a) ;
+
 }
 
 QWidget* Category::widget() {
