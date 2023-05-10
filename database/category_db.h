@@ -12,7 +12,7 @@ class Category_db
 public :
     Category_db() ;
     ~Category_db() ;
-    void insert(const Category& ) ;
+    void insert(Category& ) ;
     void remove(const Category& ) ;
     void update(const Category& ) ;
     list<Category*>* fetch() ;

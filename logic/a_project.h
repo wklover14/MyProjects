@@ -55,7 +55,7 @@ protected :
     QString description ;
     list<QFile> documents ;
     int priority ;
-    int id_project ;
+    int id_project = -1 ;
 };
 
 #endif

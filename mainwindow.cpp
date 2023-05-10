@@ -18,8 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     connexion_db::init_connexion("gabby", "gabby");
 
     Category* c_defaut = new Category("Default", Parameters::hexa_code_colors[COLORS::quartz]) ;
-    Category_db c ;
-    c.insert(*c_defaut);
+//    Category_db c ;
+//    c.insert(*c_defaut);
 
     Project_page* page1 = new Project_page( ) ;
     Stat_page* page2 = new Stat_page() ;

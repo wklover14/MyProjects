@@ -15,6 +15,7 @@ public:
 
 private :
     int value ;
+    int id_checkpoint = -1 ;
     QWidget* source = nullptr;
 };
 

@@ -2,6 +2,16 @@
 #include "view/project_step_value_view.h"
 
 
+int Project_step_value::getId_project_step_value() const
+{
+    return id_project_step_value;
+}
+
+void Project_step_value::setId_project_step_value(int newId_project_step_value)
+{
+    id_project_step_value = newId_project_step_value;
+}
+
 Project_step_value::Project_step_value(QString name, int priority) : Project_step(name, priority)
 {
 }

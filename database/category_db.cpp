@@ -8,7 +8,12 @@ Category_db::Category_db(){
 Category_db::~Category_db() {
 }
 
-void Category_db::insert(const Category& c) {
+void Category_db::insert(Category& c) {
+
+    if( c.getId_category() != -1 ) {
+        throw new ProjectException("!!PB can't insert a category who is already there ") ;
+    }
+
     QSqlDatabase db = connexion_db::get_instance() ;
 
     if( db.open() ) {
@@ -22,6 +27,16 @@ void Category_db::insert(const Category& c) {
                 qDebug() << "insertion category ok" ;
             else
                 qDebug() << "Echec d'insertion de category" ;
+
+            //update of the a_project id, who is normally unknow
+            query.prepare( "SELECT MAX(id_project) FROM category ; " ) ;
+
+            if( query.exec() && query.next() ) {
+                qDebug() << "RECUPERATION ID category ok" ;
+                c.setId_category( query.value(0).toInt() ) ;
+            } else {
+                qDebug() << "!!PB RECUPERATION ID category" ;
+            }
         } catch (QException *e) {
             qDebug() << e->what() ;
         }

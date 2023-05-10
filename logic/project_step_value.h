@@ -16,6 +16,7 @@ public:
      using iterator = Project_step::iterator ;
 
 private:
+    int id_project_step_value = - 1 ;
     A_project_view* view = nullptr ;
     QString message;
 
@@ -37,6 +38,8 @@ public:
 
     iterator begin(){ return Project_step::begin() ;}
     iterator end(){ return Project_step::end() ; }
+    int getId_project_step_value() const;
+    void setId_project_step_value(int newId_project_step_value);
 };
 
 #endif // PROJECT_STEP_VALUE_H

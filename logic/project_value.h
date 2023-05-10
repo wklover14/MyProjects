@@ -9,6 +9,7 @@ class Project_value : public A_project
 private:
     int total_value ;
     int status ;
+    int id_project_value = -1 ;
     A_project_view* view = nullptr ;
 
 public:
@@ -23,6 +24,8 @@ public:
     void setTotal_value(int newTotal_value);
     int getStatus() const;
     void setStatus(int newStatus) ;
+    int getId_project_value() const;
+    void setId_project_value(int newId_project_value);
 };
 
 #endif // PROJECT_VALUE_H

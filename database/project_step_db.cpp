@@ -12,8 +12,11 @@ project_step_db::~project_step_db()
 
 }
 
-void project_step_db::insert(const Project_step & p, int category_id )
+void project_step_db::insert(Project_step& p, int category_id )
 {
+    if( p.getId_project_step() != -1 ) {
+        throw new ProjectException("!!PB can't insert a project_step who is already there ") ;
+    }
 
     QSqlDatabase db = connexion_db::get_instance() ;
 
@@ -26,11 +29,25 @@ void project_step_db::insert(const Project_step & p, int category_id )
             QSqlQuery query(db) ;
             query.prepare(" INSERT INTO project_step "
                           " ( id_project, message) "
-                          " VALUES( :id_project, :message " ) ;
+                          " VALUES( :id_project, :message ); " ) ;
             query.bindValue(":id_project" , p.getId_project() ) ;
             query.bindValue(":message" , p.getComment() ) ;
-            query.exec() ;
-            qDebug() << "INSERTION project_step ok" ;
+            if( query.exec() )
+            {
+                qDebug() << "INSERTION project_step ok" ;
+            } else {
+                qDebug() << "Echec de l'insertion " << query.executedQuery() ;
+            }
+
+            //update of the project id, who is normally unknow, and it is the last insert
+            query.prepare( "SELECT MAX(id_project_step) FROM project_step ; " ) ;
+            if( query.exec() && query.next() ) {
+                qDebug() << "RECUPERATION ID project_step ok" ;
+                p.setId_project_step( query.value(0).toInt() ) ;
+            } else {
+                qDebug() << "!!PB RECUPERATION ID a_project" ;
+            }
+
         } catch (QSqlError *e) {
             qDebug() << e->text() ;
         }

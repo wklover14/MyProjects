@@ -11,8 +11,12 @@ step_db::~step_db()
 {
 }
 
-void step_db::insert(const Step& s, const int& project_step_id ) const
+void step_db::insert(Step& s, const int& project_step_id ) const
 {
+    if( s.getId_step() != -1 ) {
+        throw new ProjectException("!!PB can't insert a step who is already there ") ;
+    }
+
     QSqlDatabase db = connexion_db::get_instance() ;
 
     if( db.open() ) {
@@ -26,8 +30,20 @@ void step_db::insert(const Step& s, const int& project_step_id ) const
             query.bindValue(":date" ,  s.getDate() ) ;
             query.bindValue(":is_done", s.getIs_done() ) ;
             query.bindValue(":comment" , s.getComment() ) ;
-            query.exec() ;
-            qDebug() << "INSERTION from step ok" ;
+            if (query.exec()) {
+                qDebug() << "INSERTION from step ok" ;
+            } else {
+                qDebug() << "!!PB INSERTION step" ;
+            }
+
+            //update of the a_project id, who is normally unknow
+            query.prepare( "SELECT MAX(id_step) FROM step ; " ) ;
+            if( query.exec() && query.next() ) {
+                qDebug() << "RECUPERATION ID step ok" ;
+                s.setId_step( query.value(0).toInt() ) ;
+            } else {
+                qDebug() << "!!PB RECUPERATION ID step " ;
+            }
         } catch (QSqlError *e) {
             qDebug() << e->text() ;
         }

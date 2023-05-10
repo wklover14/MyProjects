@@ -16,8 +16,8 @@ class Project_step : public A_project
 public:
      using iterator = set<Step*, StepCmp >::iterator ;
 private :
+    int id_project_step  = -1 ;
     set<Step*, StepCmp> steps ;
-    int id_project_step ;
     iterator current ; //the first unvalidate step
     A_project_view* view = nullptr ;
     QString message = "" ;

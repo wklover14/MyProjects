@@ -1,6 +1,16 @@
 #include "project_value.h"
 #include "view/project_value_view.h"
 
+int Project_value::getId_project_value() const
+{
+    return id_project_value;
+}
+
+void Project_value::setId_project_value(int newId_project_value)
+{
+    id_project_value = newId_project_value;
+}
+
 Project_value::Project_value(QString name, int priority,int total_value, int status): A_project(name, priority),total_value(total_value),
     status(status)
 {

@@ -18,6 +18,7 @@
 #include "logic/project_step.h"
 #include "logic/project_value.h"
 #include "logic/project_step_value.h"
+#include "logic/projectException.h"
 
 #include "database/project_step_db.h"
 
@@ -194,7 +195,11 @@ private slots :
 
             //add to the database
             project_step_db p_db;
-            p_db.insert(*p, 1) ; //0 for the default project
+            try {
+                p_db.insert(*p, 1) ; //0 for the default project
+            } catch(ProjectException* e){
+                qDebug() << e->get_message() ;
+            }
 
             emit project_created(p) ;
         }

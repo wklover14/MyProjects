@@ -16,8 +16,12 @@ a_project_db::~a_project_db()
 
 }
 
-void a_project_db::insert(const A_project & p, int id_category ) const
+void a_project_db::insert(A_project & p, int id_category ) const
 {
+    if( p.getId_project() != -1 ) {
+        throw new ProjectException("!!PB can't insert a project who is already there ") ;
+    }
+
     QSqlDatabase db = connexion_db::get_instance() ;
 
     if( db.open() ) {
@@ -34,8 +38,21 @@ void a_project_db::insert(const A_project & p, int id_category ) const
             query.bindValue(":comment", p.getComment()) ;
             query.bindValue(":description", p.getDescription());
             query.bindValue(":priority", p.getPriority());
-            query.exec() ;
-            qDebug() << "INSERTION ok" ;
+            if( query.exec() ) {
+                qDebug() << "INSERTION a_project ok" ;
+            } else {
+                qDebug() << "!!PB INSERTION a_project" ;
+            }
+
+            //update of the a_project id, who is normally unknow
+            query.prepare( "SELECT MAX(id_project) FROM a_project ; " ) ;
+            if( query.exec() && query.next() ) {
+                qDebug() << "RECUPERATION ID a_project ok" ;
+                p.setId_project( query.value(0).toInt() ) ;
+            } else {
+                qDebug() << "!!PB RECUPERATION ID a_project" ;
+            }
+
         } catch (QSqlError *e) {
             qDebug() << e->text() ;
         }

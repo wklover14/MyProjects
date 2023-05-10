@@ -13,7 +13,7 @@ private:
 public:
     project_step_db();
     ~project_step_db() ;
-    void insert(const Project_step& , int ) ;
+    void insert(Project_step& , int ) ;
     void remove(const Project_step& ) ;
     void update(const Project_step& ) ;
 };

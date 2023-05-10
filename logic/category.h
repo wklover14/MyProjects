@@ -38,7 +38,7 @@ private :
     QString name ;
     QString color ;
     int idmanager ;
-    int id_category ;
+    int id_category = -1 ;
     QWidget* view = nullptr ;
 };
 
