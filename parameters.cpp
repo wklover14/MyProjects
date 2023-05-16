@@ -93,14 +93,14 @@ QString Parameters::text_edit_stylesheet = "max-height: 25px;"
         "font-style: italic;";
 
 QString Parameters::text_plain_edit_stylesheet  = "max-height: 50px;"
-          "max-width: 300px;"
-          "border: 1px solid #8c8c8c;"
-          "border-radius: 4px;"
-          "background-color: #ffffff;"
-          "font-family: Arial;"
-          "font-size: 14px;"
-          "color: #121212;"
-          "font-style: italic;";
+        "max-width: 300px;"
+        "border: 1px solid #8c8c8c;"
+        "border-radius: 4px;"
+        "background-color: #ffffff;"
+        "font-family: Arial;"
+        "font-size: 14px;"
+        "color: #121212;"
+        "font-style: italic;";
 
 //path for images
 QString Parameters::path_calendar = "../MyProjects/images/calendar.png";

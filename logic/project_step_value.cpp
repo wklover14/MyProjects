@@ -2,14 +2,15 @@
 #include "view/project_step_value_view.h"
 
 
-int Project_step_value::getId_project_step_value() const
+Project_step_value::Project_step_value(int id_project_step_value,int id_project_step, QString name, int priority, QDate begin, QDate end,
+                           QString comment, QString description ,
+                           int id_project, int id_category ):
+                            Project_step(id_project_step ,name, priority, begin, end,
+                            comment, description ,
+                            id_project, id_category ),
+                            id_project_step_value(id_project_step_value)
 {
-    return id_project_step_value;
-}
 
-void Project_step_value::setId_project_step_value(int newId_project_step_value)
-{
-    id_project_step_value = newId_project_step_value;
 }
 
 Project_step_value::Project_step_value(QString name, int priority) : Project_step(name, priority)
@@ -20,6 +21,15 @@ Project_step_value::~Project_step_value(){
 
 }
 
+int Project_step_value::getId_project_step_value() const
+{
+    return id_project_step_value;
+}
+
+void Project_step_value::setId_project_step_value(int newId_project_step_value)
+{
+    id_project_step_value = newId_project_step_value;
+}
 void Project_step_value::validate_step(){
     Project_step::validate_step() ;
 }

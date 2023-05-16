@@ -25,6 +25,9 @@ private :
 
 public:
     Project_step(QString name, int priority);
+    Project_step(int id_project_step, QString name, int priority, QDate begin, QDate end,
+                 QString comment, QString description ,
+                 int id_project, int id_category ) ;
     virtual ~Project_step()  ;
     bool check_step_add(Step* s) ;
     void add_step(QDate new_date, QString new_comment ) ;

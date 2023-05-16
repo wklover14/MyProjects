@@ -4,6 +4,15 @@ A_project::A_project(QString name, int priority) : name(name),priority(priority)
 
 }
 
+A_project::A_project(QString name, int priority, QDate begin, QDate end,
+          QString comment, QString description ,
+          int id_project, int id_category ) :
+          name(name), begin_date(begin),end_date(end), comment(comment), description(description)
+          ,priority(priority), id_project(id_project) , id_category(id_category)
+{
+
+}
+
 //getters and setters
 
 const QString &A_project::getName() const
@@ -75,4 +84,14 @@ int A_project::getId_project() const
 void A_project::setId_project(int newId_project)
 {
     id_project = newId_project;
+}
+
+int A_project::getId_category() const
+{
+    return id_category;
+}
+
+void A_project::setId_category(int newId_category)
+{
+    id_category = newId_category;
 }

@@ -1,6 +1,9 @@
 #ifndef PROJECT_PICKER_VIEW_H
 #define PROJECT_PICKER_VIEW_H
 
+#include <list>
+#include <map>
+
 #include <QWidget>
 #include <QTextEdit>
 #include <QPlainTextEdit>
@@ -12,6 +15,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QMessageBox>
+#include <QComboBox>
 
 #include "components/date_picker.h"
 #include "parameters.h"
@@ -21,6 +25,7 @@
 #include "logic/projectException.h"
 
 #include "database/project_step_db.h"
+#include "database/category_db.h"
 
 class Project_picker_view : public QWidget
 {
@@ -31,10 +36,13 @@ private:
     QSpinBox* total_value_selector = new QSpinBox() ;
     QPlainTextEdit* description = new QPlainTextEdit() ;
     QCheckBox* is_value = new QCheckBox("Project with value") ;
-    QCheckBox* checkpoint = new QCheckBox("Adding step") ;
+    QCheckBox* is_step = new QCheckBox("Adding step") ;
     QPushButton* ok_button = new QPushButton("Add") ;
     QPushButton* clear_button = new QPushButton("Clear") ;
     Date_picker* begin = new Date_picker(this), *end = new Date_picker(this);
+    QComboBox* categories_cmb = new QComboBox() ;
+    map<QString, int> map_name_id ;  //
+    QVBoxLayout* layout = new QVBoxLayout() ;
 
 public:
     Project_picker_view(QWidget* parent = nullptr) : QWidget(parent)
@@ -46,7 +54,7 @@ public:
         priority_selector->setStyleSheet(Parameters::text_edit_stylesheet) ;
         total_value_selector->setStyleSheet(Parameters::text_edit_stylesheet) ;
         description->setStyleSheet(Parameters::text_plain_edit_stylesheet) ;
-        checkpoint->setStyleSheet(Parameters::text_stylesheet_1) ;
+        is_step->setStyleSheet(Parameters::text_stylesheet_1) ;
         is_value->setStyleSheet(Parameters::text_stylesheet_1) ;
 
         priority_selector->setRange(0, 10) ;
@@ -54,61 +62,33 @@ public:
         total_value_selector->setSingleStep(10) ;
         begin->set_date(QDate::currentDate()) ; end->set_date(QDate::currentDate()) ;
 
-        //layout creation and adding item
-        QHBoxLayout* name_layout = new QHBoxLayout() ;
-        QLabel* tmp = new QLabel("Project Name") ;
-        tmp->setStyleSheet(Parameters::text_stylesheet_1) ;
-        name_layout->setAlignment(Qt::AlignLeft) ;
-        tmp->setMaximumWidth( Parameters::label_width ) ;
-        name_layout->addWidget(tmp) ;
-        name_layout->addWidget(project_name);
-        layout->addLayout(name_layout) ;
 
-        QHBoxLayout* priority_selector_layout = new QHBoxLayout() ;
-        tmp = new QLabel("priority_selector ") ;
-        tmp->setStyleSheet(Parameters::text_stylesheet_1) ;
-        priority_selector_layout->setAlignment(Qt::AlignLeft) ;
-        tmp->setMaximumWidth( Parameters::label_width ) ;
-        priority_selector_layout->addWidget(tmp) ;
-        priority_selector_layout->addWidget(priority_selector);
-        layout->addLayout(priority_selector_layout) ;
+        //init all the categories
+        Category_db cat_db ;
+        list<Category*>* categories = cat_db.fetch() ;
+        for( auto category : *categories ) {
+            categories_cmb->addItem( category->getName() ) ;
+            map_name_id[category->getName()] = category->getId_category() ;
+        }
+
+        //layout creation and adding item
+        layout->addLayout( add_label_plus_item("Name ", project_name) ) ;
+        layout->addLayout( add_label_plus_item("Category ", categories_cmb )) ;
+        layout->addLayout( add_label_plus_item("Priority ", priority_selector) ) ;
 
         QHBoxLayout* date_layout = new QHBoxLayout() ;
-        tmp = new QLabel("Begin") ;
-        tmp->setStyleSheet(Parameters::text_stylesheet_1) ;
-        date_layout->setAlignment(Qt::AlignLeft) ;
-        tmp->setMaximumWidth( Parameters::label_width ) ;
-        date_layout->addWidget(tmp) ;
-        date_layout->addWidget(begin);
-        tmp = new QLabel("End") ;
-        tmp->setStyleSheet(Parameters::text_stylesheet_1) ;
-        date_layout->addWidget(tmp) ;
-        date_layout->addWidget(end);
-        layout->addLayout(date_layout) ;
-
-        QHBoxLayout* description_layout = new QHBoxLayout() ;
-        tmp = new QLabel("Description ") ;
-        tmp->setStyleSheet(Parameters::text_stylesheet_1) ;
-        description_layout->setAlignment(Qt::AlignLeft) ;
-        tmp->setMaximumWidth( Parameters::label_width ) ;
-        description_layout->addWidget(tmp) ;
-        description_layout->addWidget(description);
-        layout->addLayout( description_layout ) ;
+        add_label_plus_item("Begin date :", begin, date_layout ) ;
+        add_label_plus_item("End date :", end, date_layout ) ;
+        layout->addLayout( date_layout ) ;
 
         QHBoxLayout* value_layout = new QHBoxLayout() ;
-        tmp = new QLabel("Total value : ") ;
-        tmp->setStyleSheet(Parameters::text_stylesheet_1) ;
-        value_layout->setAlignment(Qt::AlignLeft) ;
-        tmp->setMaximumWidth( Parameters::label_width ) ;
         value_layout->addWidget(is_value) ;
-        value_layout->addWidget(tmp) ;
-        value_layout->addWidget(total_value_selector);
+        add_label_plus_item("Value :", total_value_selector, value_layout) ;
         layout->addLayout(value_layout) ;
 
-        QHBoxLayout* checkpoint_layout = new QHBoxLayout() ;
-        checkpoint_layout->setAlignment(Qt::AlignLeft) ;
-        checkpoint_layout->addWidget(checkpoint) ;
-        layout->addLayout(checkpoint_layout) ;
+        QHBoxLayout* step_layout = new QHBoxLayout() ;
+        value_layout->addWidget(is_step) ;
+        layout->addLayout(step_layout) ;
 
         QHBoxLayout* button_layout = new QHBoxLayout();
         button_layout->addWidget(ok_button)  ;
@@ -133,16 +113,35 @@ public:
         //init
         this->setLayout(layout) ;
     } ;
+
     ~Project_picker_view(){}
 
 signals :
     void project_created(A_project* a) ;
 
 private slots :
+    QHBoxLayout* add_label_plus_item(QString name, QWidget* widget, QHBoxLayout* alternative_layout = nullptr ) {
+        //this method create a QHboxLayout and add a qlabel with the name and the wodget inside
+        QHBoxLayout* name_layout = new QHBoxLayout() ;
+        QLabel* tmp = new QLabel(name) ;
+        tmp->setStyleSheet(Parameters::text_stylesheet_1) ;
+        name_layout->setAlignment(Qt::AlignLeft) ;
+        tmp->setMaximumWidth( Parameters::label_width ) ;
+        name_layout->addWidget(tmp) ;
+        name_layout->addWidget(widget);
+        if( alternative_layout == nullptr ){
+            return name_layout ;
+        } else {
+            alternative_layout->addLayout(name_layout) ;
+            return alternative_layout ;
+        }
+    }
+
     void handle_creation() {
         //fetch data
         QString name = project_name->toPlainText() ;
         QString des = description->toPlainText() ;
+        int category_id =  map_name_id[ categories_cmb->itemText(categories_cmb->currentIndex()) ] ;
         int pr = priority_selector->value()  ;
         int total_value = total_value_selector->value() ;
 
@@ -161,7 +160,7 @@ private slots :
             error += "Begin date can't be after end date \n" ;
         }
 
-        if( !is_value->isChecked() && !checkpoint->isChecked() ){
+        if( !is_value->isChecked() && !is_step->isChecked() ){
             error += "you must select a project with value, or with steps or both \n" ;
         }
 
@@ -172,11 +171,12 @@ private slots :
         }
 
         //create the project
-        if( is_value->isChecked() && checkpoint->isChecked() ){
+        if( is_value->isChecked() && is_step->isChecked() ){
             //a project step with value
             Project_step_value* p = new Project_step_value(name, pr) ;
             p->setBegin_date( begin->get_date() );
             p->setEnd_date( end->get_date()  ) ;
+            p->setId_category( category_id ) ;
             p->setDescription( des ) ;
             emit project_created(p) ;
         } else if( is_value->isChecked() ){
@@ -184,6 +184,7 @@ private slots :
             Project_value* p = new Project_value(name, pr, total_value, 0 ) ;
             p->setBegin_date( begin->get_date() );
             p->setEnd_date( end->get_date()  ) ;
+            p->setId_category( category_id ) ;
             p->setDescription( des );
             emit project_created(p) ;
         } else {
@@ -191,12 +192,13 @@ private slots :
             Project_step* p = new Project_step(name, pr) ;
             p->setBegin_date( begin->get_date() );
             p->setEnd_date( end->get_date()  ) ;
+            p->setId_category( category_id ) ;
             p->setDescription( des );
 
             //add to the database
-            project_step_db p_db;
+            Project_step_db p_db;
             try {
-                p_db.insert(*p, 1) ; //0 for the default project
+                p_db.insert(*p, p->getId_category() ) ; //0 for the default project
             } catch(ProjectException* e){
                 qDebug() << e->get_message() ;
             }
@@ -205,15 +207,25 @@ private slots :
         }
         clear() ;
     }
+
     void clear() {
         project_name->setText("") ;
         priority_selector->setValue(0) ;
         total_value_selector->setValue(100) ;
         description->clear() ;
         is_value->setChecked(false) ;
-        checkpoint->setChecked(false) ;
+        is_step->setChecked(false) ;
+        categories_cmb->setCurrentIndex(0) ;
         begin->set_date(QDate::currentDate()) ;
         end->set_date(QDate::currentDate()) ;
+
+        //re-init all the categories
+        Category_db cat_db ;
+        list<Category*>* categories = cat_db.fetch() ;
+        for( auto category : *categories ) {
+            categories_cmb->addItem( category->getName() ) ;
+            map_name_id[category->getName()] = category->getId_category() ;
+        }
     }
 };
 

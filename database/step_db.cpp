@@ -22,7 +22,7 @@ void step_db::insert(Step& s, const int& project_step_id ) const
     if( db.open() ) {
         qDebug() << " connected to database ";
         try {
-            QSqlQuery query ;
+            QSqlQuery query(db) ;
             query.prepare(" INSERT INTO step "
                           " ( id_project_step, date, is_done, comment )"
                           "VALUES( :id_project_step, :date, :is_done, :comment );" ) ;

@@ -22,6 +22,9 @@ private:
 
 public:
     Project_step_value(QString name, int priority);
+    Project_step_value(int id_project_step_value,int id_project_step, QString name, int priority, QDate begin, QDate end,
+                 QString comment, QString description ,
+                 int id_project, int id_category ) ;
     ~Project_step_value() ;
 
     void validate_step() ;

@@ -63,7 +63,9 @@ HEADERS += \
     view/a_project_view.h \
     view/category_view.h \
     view/checkpoint_view.h \
-    view/pages.h \
+    view/pages/Add_page.h \
+    view/pages/Project_page.h \
+    view/pages/Stat_page.h \
     view/project_picker_view.h \
     view/project_step_value_view.h \
     view/project_step_view.h \

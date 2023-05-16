@@ -75,12 +75,14 @@ list<Category*>* Category_db::fetch(){
         } else {
             qDebug() << "Database: connection ok";
             QSqlQuery query(db);
-            if ( query.exec(" SELECT name, color FROM category ; ") ) {
+            if ( query.exec(" SELECT id_category, name, color FROM category ; ") ) {
                 while (query.next()) {
-                    QString name = query.value(0).toString();
-                    QString color = query.value(1).toString();
-                    qDebug() << "fetch = " << name << " : " << color ;
-                    categories->push_back( new Category( name, color ) ) ;
+                    int id_category =  query.value(0).toInt() ;
+                    QString name = query.value(1).toString();
+                    QString color = query.value(2).toString();
+                    Category* tmp = new Category( name, color ) ;
+                    tmp->setId_category( id_category) ;
+                    categories->push_back( tmp ) ;
                 }
                 return categories ;
             } else {

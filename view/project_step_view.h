@@ -16,6 +16,8 @@
 #include "view/a_project_view.h"
 #include "view/step_picker_view.h"
 
+#include "database/project_step_db.h"
+
 
 class Project_step_view : public A_project_view
 {
@@ -28,9 +30,11 @@ protected :
     Date_picker* end = new Date_picker() ;
     Carrousel* carrousel = new Carrousel() ;
     Icon_button* add_step_button = new Icon_button() ;
+    Project_step_db* project_step_dtb = new Project_step_db() ;
 
     void notify_source_modified() { emit source_modified(source) ;   };
-
+    void update_database() const  { project_step_dtb->update( *source ) ;  }
+    void add_database(Step s) const { project_step_dtb->add_step( *source , s );  }
 public:
     Project_step_view(Project_step* new_source,QWidget* parent = nullptr) : A_project_view(parent), source(new_source)
     {
@@ -63,16 +67,20 @@ public:
         //change on the name of the project
         connect( project_name , &Text_picker::value_changed , this , [this](QString new_name){
             source->setName(new_name) ;
+            update_database() ;
             notify_source_modified() ;
         } ) ;
 
         //change on date
         connect( begin, &Date_picker::value_changed , this, [this](QDate new_date){
             source->setBegin_date(new_date) ;
+            update_database() ;
             notify_source_modified() ;
         } ) ;
+
         connect( end, &Date_picker::value_changed , this, [this](QDate new_date){
             source->setEnd_date(new_date) ;
+            update_database() ;
             notify_source_modified() ;
         } ) ;
 
@@ -83,6 +91,7 @@ public:
                 source->update_step(s) ;
                 reload() ;
                 //update the project view
+                update_database() ;
                 notify_source_modified() ;
             } catch ( ProjectException* e ) {
                 s->rollback() ;
@@ -117,6 +126,7 @@ protected slots:
                try {
                    source->add_step( s ) ;
                    carrousel->add( s );
+                   add_database(*s) ;
                    reload() ;
                    notify_source_modified() ;
                 } catch ( ProjectException* e ){

@@ -23,6 +23,9 @@ public :
 
     virtual ~A_project() = default ;
     A_project(QString name, int priority);
+    A_project(QString name, int priority, QDate begin, QDate end,
+              QString comment, QString description ,
+              int id_project, int id_category ) ;
 
     //getters and setters
 
@@ -47,6 +50,9 @@ public :
     int getId_project() const;
     void setId_project(int newId_project);
 
+    int getId_category() const;
+    void setId_category(int newId_category);
+
 protected :
     QString name ;
     QDate begin_date ;
@@ -56,6 +62,7 @@ protected :
     list<QFile> documents ;
     int priority ;
     int id_project = -1 ;
+    int id_category ;
 };
 
 #endif

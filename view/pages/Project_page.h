@@ -1,5 +1,7 @@
-#ifndef PAGES_H
-#define PAGES_H
+#ifndef PROJECT_PAGE_H
+#define PROJECT_PAGE_H
+
+#include <list>
 
 #include <QWidget>
 #include <QLabel>
@@ -9,8 +11,11 @@
 #include <QScrollBar>
 
 #include "parameters.h"
-#include "project_picker_view.h"
 #include "logic/category.h"
+#include "view/category_view.h"
+
+#include "database/category_db.h"
+#include "database/project_step_db.h"
 
 class Project_page : public QWidget
 {
@@ -23,8 +28,9 @@ private :
     QVBoxLayout* detail_layout = new QVBoxLayout() ;
     QWidget* current = nullptr ; //the widget in the detail_layout
 
-public :
-    Project_page(QWidget* parent= nullptr) : QWidget(parent)
+
+public :    
+    Project_page(QWidget *parent= nullptr) : QWidget(parent)
     {
         QHBoxLayout* layout = new QHBoxLayout();
 
@@ -54,18 +60,19 @@ public :
         layout->addLayout( detail_layout ) ;
         this->setAcceptDrops(true) ;
         this->setLayout( layout ) ;
-    } ;
-    ~Project_page(){} ;
-
-    void add_category(Category* c){
-        categories_layout->addWidget(c->widget()) ;
     }
 
-    void remove_categories(Category* c) {
+    ~Project_page(){}
+
+    void add_category(Category *c){
+        categories_layout->addWidget( c->widget() ) ;
+    }
+
+    void remove_categories(Category *c) {
         categories_layout->removeWidget(c->widget()) ;
     }
 
-    void set_current_project(A_project* a){
+    void set_current_project(A_project *a){
         if( current != nullptr ){
             detail_layout->removeWidget( current );
             current->hide() ;
@@ -74,50 +81,41 @@ public :
         current = a->widget() ;
         current->show();
     }
+
+    void get_data_from_database() {
+        //get all categories
+        list<Category*>* lst_categories ;
+        Category_db category_db ;
+        Project_step_db project_step_db ;
+
+        lst_categories = category_db.fetch() ;
+
+        //get all_project
+        for(auto category : *lst_categories ){
+            //looking for projects_steps, we need to exclude value referenced by a project_step_value
+            list<Project_step*>* projects ;
+            projects = project_step_db.fetch_all_for_category(category->getId_category() ) ;
+
+            for(auto project : *projects ){
+                category->add_project(project) ;
+            }
+            //looking for projects_value
+
+            //looking for projects_steps_value
+            //we need to replace value referenced by a project_step_value
+
+            //we add the category to the page
+            add_category( category ) ;
+
+            //connection for the category
+            Category_view* tmp = dynamic_cast<Category_view*>( category->widget() ) ;
+            connect( tmp, &Category_view::project_selected, this, [this](A_project* a){
+                this->set_current_project(a);
+            }) ;
+        }
+    }
+
 };
 
-class Stat_page : public QWidget
-{
-    Q_OBJECT
-private :
-    QLabel* stats = new QLabel("Stats");
-public :
-    Stat_page(QWidget* parent= nullptr) : QWidget(parent)
-    {
-        QHBoxLayout* layout = new QHBoxLayout();
+#endif // PROJECT_PAGE_H
 
-        stats->setStyleSheet( Parameters::title_stylesheet );
-        layout->addWidget(stats) ;
-        this->setLayout(layout);
-    } ;
-    ~Stat_page(){} ;
-};
-
-class Add_project_page : public QWidget
-{
-    Q_OBJECT
-private :
-    QLabel* add_page = new QLabel("Add Project");
-    Project_picker_view* picker = new Project_picker_view() ;
-public :
-    Add_project_page(QWidget* parent= nullptr) : QWidget(parent)
-    {
-        QVBoxLayout* layout = new QVBoxLayout();
-        add_page->setStyleSheet( Parameters::title_stylesheet );
-        layout->addWidget(add_page);
-        layout->addWidget( picker );
-        this->setLayout(layout);
-
-        //notify that a project is created
-        connect( picker, &Project_picker_view::project_created, this , [this](A_project* a){
-            emit project_created(a) ;
-        } ) ;
-    } ;
-    ~Add_project_page(){} ;
-
-signals:
-    void project_created(A_project*) ;
-};
-
-
-#endif // PAGES_H

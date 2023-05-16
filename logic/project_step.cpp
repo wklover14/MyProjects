@@ -2,6 +2,17 @@
 #include "logic/projectException.h"
 #include "view/project_step_view.h"
 
+Project_step::Project_step(int id_project_step, QString name, int priority, QDate begin, QDate end,
+                           QString comment, QString description ,
+                           int id_project, int id_category ):
+                            A_project(name, priority, begin, end,
+                            comment, description ,
+                            id_project, id_category ),
+                            id_project_step(id_project_step)
+{
+
+}
+
 int Project_step::getId_project_step() const
 {
     return id_project_step;
@@ -59,6 +70,8 @@ set<Step*, StepCmp> Project_step::get_steps() const {
 }
 
 Step* Project_step::getCurrent(){
+    if( steps.empty() ) return nullptr ;
+
     for(auto it : steps){
         if( ! it->getIs_done() ){
             current = steps.find(it) ;
